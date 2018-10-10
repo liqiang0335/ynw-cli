@@ -1,6 +1,6 @@
 # 安装
 
-> 支持 vue 和 react 单个项目的多页面打包方式
+> 适合单个项目的多页面打包 (支持 vue 和 react )
 
 ```shell
 npm i -g ynw-cli
