@@ -22,7 +22,7 @@ npm i -g ynw-cli
 
 ```shell
 # 切换到 vue 配置文件
-# 如果是第一次切换, 先安装依赖模块
+# 如果是第一次切换, 先安装依赖模块 cnpm install
 
 ynw init=vue
 ynw build=VueApp
@@ -32,7 +32,7 @@ ynw build=VueApp
 
 ```shell
 # 切换到 react 配置文件
-# 如果是第一次切换, 先安装依赖模块
+# 如果是第一次切换, 先安装依赖模块 cnpm install
 
 ynw init=react
 ynw build=ReactApp
