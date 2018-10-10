@@ -1,3 +1,11 @@
+# 安装
+
+> 支持 vue 和 react 单个项目的多页面打包方式
+
+```shell
+npm i -g ynw-cli
+```
+
 # 命令行参数
 
 - `ynw init=[vue/react]` : 配置文件
