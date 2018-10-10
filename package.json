@@ -13,7 +13,7 @@
   ],
   "author": "liqiang0335@qq.com",
   "bin": {
-    "ynw": "./index.js",
+    "ynw": "./index.js"
   },
   "repository": {
     "type": "git",
