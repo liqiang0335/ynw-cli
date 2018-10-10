@@ -1,0 +1,15 @@
+{
+  "presets": [
+    ["@babel/env", {
+      "modules": false,
+      "targets": {
+        "browsers": ["ie >= 9"]
+      },
+      "useBuiltIns": "usage"
+    }],
+    "@babel/react"
+  ],
+  "plugins": [
+    "@babel/plugin-transform-runtime"
+  ]
+}

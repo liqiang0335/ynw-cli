@@ -1,0 +1,26 @@
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "modules": false,
+      "targets": {
+        "browsers": ["ie >= 9"]
+      },
+      "useBuiltIns": "usage"
+    }]
+  ],
+  "plugins": [
+    "transform-vue-jsx",
+    "@babel/plugin-transform-runtime",
+    ["component", {
+      "libraryName": "element-ui",
+      "styleLibraryName": "theme-chalk"
+    }],
+    ["import", {
+      "libraryName": "vant",
+      "libraryDirectory": "es",
+      "style": true
+    }],
+    "webpack-async-module-name",
+    "ynw"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "ynw-cli",
+  "version": "0.0.1",
+  "description": "CLI for VUE & REACT",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "ynw-cli",
+    "ynw",
+    "yueniu",
+    "yueniuwang",
+    "yncj"
+  ],
+  "author": "liqiang0335@qq.com",
+  "bin": {
+    "ynw": "./index.js",
+    "yn": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liqiang0335/ynw-cli.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/liqiang0335/ynw-cli/issues"
+  },
+  "homepage": "https://github.com/liqiang0335/ynw-cli#readme"
+}
