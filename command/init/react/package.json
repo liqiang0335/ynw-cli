@@ -39,6 +39,7 @@
     "@babel/preset-env": "latest",
     "@babel/runtime": "latest",
     "@babel/preset-react": "latest",
+    "babel-plugin-import": "latest",
     "babel-loader": "latest",
     "autoprefixer": "latest",
     "colors": "latest",
