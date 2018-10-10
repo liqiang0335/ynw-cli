@@ -1,10 +1,10 @@
 # 命令行参数
 
-- `yn init=[vue/react]` : 配置文件
-- `yn build=index env=[dev/pro/hot]` : 构建 + 开发环境/生成环境/热替换
-- `yn version` 版本号
-- `yn template` 下载模板
-- `yn cros` : 打开禁用跨域选项的 Chrome
+- `ynw init=[vue/react]` : 配置文件
+- `ynw build=index env=[dev/pro/hot]` : 构建 + 开发环境/生成环境/热替换
+- `ynw version` 版本号
+- `ynw template` 下载模板
+- `ynw cros` : 打开禁用跨域选项的 Chrome
 
 ### 使用方法
 
