@@ -18,7 +18,7 @@ npm i -g ynw-cli
 
 > 先在(ynw.config.js)配置文件中设置好 keys 参数
 
-## 构建 Vue 项目
+### 构建 Vue 项目
 
 ```shell
 # 切换到 vue 配置文件
@@ -28,7 +28,7 @@ ynw init=vue
 ynw build=VueApp
 ```
 
-## 构建 React 项目
+### 构建 React 项目
 
 ```shell
 # 切换到 react 配置文件
