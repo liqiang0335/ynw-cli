@@ -14,11 +14,11 @@ npm i -g ynw-cli
 - `ynw template` 下载模板
 - `ynw cros` : 打开禁用跨域选项的 Chrome
 
-### 使用方法
+# 使用方法
 
 > 先在(ynw.config.js)配置文件中设置好 keys 参数
 
-## # 构建 Vue 项目
+## 构建 Vue 项目
 
 ```shell
 # 切换到 vue 配置文件
