@@ -23,6 +23,7 @@ module.exports = {
   rules: {
     semi: 2,
     "react/prop-types": "off",
+    "react/display-name": "off",
     "no-irregular-whitespace": "off",
     "no-console": "off"
   }
