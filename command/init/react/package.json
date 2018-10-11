@@ -26,7 +26,6 @@
     "ynw": "latest"
   },
   "devDependencies": {
-    "@babel/cli": "latest",
     "@babel/core": "latest",
     "@babel/plugin-transform-runtime": "latest",
     "@babel/plugin-proposal-optional-chaining": "latest",
