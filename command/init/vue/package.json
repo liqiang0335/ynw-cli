@@ -37,6 +37,7 @@
     "@babel/preset-env": "latest",
     "@babel/runtime": "latest",
     "babel-loader": "latest",
+    "babel-eslint": "latest",
     "babel-helper-vue-jsx-merge-props": "latest",
     "babel-plugin-component": "latest",
     "babel-plugin-import": "latest",

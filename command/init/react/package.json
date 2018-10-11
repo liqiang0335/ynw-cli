@@ -40,6 +40,7 @@
     "@babel/runtime": "latest",
     "@babel/preset-react": "latest",
     "babel-plugin-import": "latest",
+    "babel-eslint": "latest",
     "babel-loader": "latest",
     "autoprefixer": "latest",
     "colors": "latest",
