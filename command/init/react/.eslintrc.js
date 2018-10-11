@@ -13,6 +13,7 @@ module.exports = {
     process: true,
     path: true
   },
+  parser: "babel-eslint",
   parserOptions: {
     ecmaVersion: 2017,
     sourceType: "module",
