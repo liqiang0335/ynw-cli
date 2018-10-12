@@ -32,6 +32,7 @@
     "@babel/plugin-proposal-pipeline-operator": "latest",
     "@babel/plugin-proposal-class-properties": "latest",
     "@babel/plugin-syntax-dynamic-import": "latest",
+    "@babel/plugin-proposal-async-generator-functions": "latest",
     "@babel/polyfill": "latest",
     "@babel/preset-env": "latest",
     "@babel/runtime": "latest",
