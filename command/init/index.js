@@ -1,9 +1,12 @@
 const path = require("path");
 const load = require("../build/middleware/load");
 
-const write = async ({ fns, cwd }, { filePath, fileName, type }) => {
+const write = async (
+  { fns, cwd, sourceFolderName },
+  { filePath, fileName }
+) => {
   const target = path.join(cwd, fileName);
-  if (type == "common" && (await fns.exists(target))) {
+  if (sourceFolderName == "common" && (await fns.exists(target))) {
     return;
   }
   const content = await fns.readFile(filePath, "utf-8");
@@ -11,12 +14,12 @@ const write = async ({ fns, cwd }, { filePath, fileName, type }) => {
   console.log(`>> write [ ${fileName} ] done`);
 };
 
-const batchFiles = async (context, source, type) => {
+const batchFiles = async (context, source) => {
   const { fns } = context;
   const files = await fns.readdir(source, "utf-8");
   files.forEach(fileName => {
     const filePath = path.join(source, fileName);
-    write(context, { filePath, fileName, type });
+    write(context, { filePath, fileName });
   });
 };
 
@@ -27,6 +30,6 @@ module.exports = async context => {
   }
   const source = path.join(__dirname, "./", init);
   const common = path.join(__dirname, "./", "common");
-  batchFiles(context, common, "common");
+  batchFiles({ ...context, sourceFolderName: "common" }, common);
   batchFiles(context, source);
 };
