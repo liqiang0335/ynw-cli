@@ -1,12 +1,9 @@
 const path = require("path");
 const load = require("../build/middleware/load");
 
-const overrides = new Set([".babelrc", ".eslintrc.js", "package.json"]);
-
-const write = async ({ fns, cwd }, { filePath, fileName }) => {
+const write = async ({ fns, cwd }, { filePath, fileName, type }) => {
   const target = path.join(cwd, fileName);
-  if (!overrides.has(fileName) && (await fns.exists(target))) {
-    console.log(`>> [ ${fileName} ] exists`);
+  if (type == "common" && (await fns.exists(target))) {
     return;
   }
   const content = await fns.readFile(filePath, "utf-8");
@@ -14,15 +11,22 @@ const write = async ({ fns, cwd }, { filePath, fileName }) => {
   console.log(`>> write [ ${fileName} ] done`);
 };
 
+const batchFiles = async (context, source, type) => {
+  const { fns } = context;
+  const files = await fns.readdir(source, "utf-8");
+  files.forEach(fileName => {
+    const filePath = path.join(source, fileName);
+    write(context, { filePath, fileName, type });
+  });
+};
+
 module.exports = async context => {
-  const { fns, init } = context;
+  const { init } = context;
   if (!init) {
     return;
   }
   const source = path.join(__dirname, "./", init);
-  const files = await fns.readdir(source, "utf-8");
-  files.forEach(fileName => {
-    const filePath = path.join(source, fileName);
-    write(context, { filePath, fileName });
-  });
+  const common = path.join(__dirname, "./", "common");
+  batchFiles(context, common, "common");
+  batchFiles(context, source);
 };
