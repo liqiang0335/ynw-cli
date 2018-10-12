@@ -12,11 +12,11 @@ npm i -g ynw-cli
 - `ynw build=index env=[dev/pro/hot]` : 构建 + 开发环境/生成环境/热替换
 - `ynw version` 版本号
 - `ynw template` 下载模板
-- `ynw cros` : 打开禁用跨域选项的 Chrome
+- `ynw cros` : 打开可以跨域的 Chrome
 
 # 使用方法
 
-> 先在(ynw.config.js)配置文件中设置好 keys 参数
+> 先在 [ ynw.config.js ] 配置文件中设置好 keys 参数
 
 ### 构建 Vue 项目
 
