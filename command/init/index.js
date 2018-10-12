@@ -11,7 +11,7 @@ const write = async (
   }
   const content = await fns.readFile(filePath, "utf-8");
   await fns.writeFile(target, content, "utf-8");
-  console.log(`>> write [ ${fileName} ] done`);
+  console.log(`>> write [ ${fileName} ]`);
 };
 
 const batchFiles = async (context, source) => {
