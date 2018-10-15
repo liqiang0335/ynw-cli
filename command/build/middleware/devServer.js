@@ -17,7 +17,7 @@ module.exports = context => option => {
 
   option.entry = {
     [fileName]: [
-      `webpack-dev-server/client?http://localhost:${port}/`,
+      `webpack-dev-server/client?http://127.0.0.1:${port}/`,
       "webpack/hot/dev-server",
       absolutePath
     ]
