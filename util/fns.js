@@ -1,15 +1,20 @@
 const fs = require("fs");
 const path = require("path");
 const util = require("util");
+
 const cwd = process.cwd();
 const load = name => require(path.join(cwd, "node_modules", name));
 
+exports.exists = util.promisify(fs.exists);
+exports.readFile = util.promisify(fs.readFile);
+exports.writeFile = util.promisify(fs.writeFile);
+exports.readdir = util.promisify(fs.readdir);
 /**
  * 获取命令行的参数
  * dep 等价于 dep=true
  * --dep 等价于 dep=true
  */
-function getParams(arr) {
+exports.getParams = function(arr) {
   const reg = /=|--/i;
   const result = arr.filter((_, i) => i > 1).reduce((acc, cur) => {
     if (!reg.test(cur)) {
@@ -21,12 +26,12 @@ function getParams(arr) {
     return acc;
   }, {});
   return result;
-}
+};
 
 /**
  * 复制属性
  */
-function extend(source, target) {
+exports.extend = function(source, target) {
   if (!target) return source;
   for (var key in source) {
     if (target[key] !== undefined) {
@@ -34,12 +39,12 @@ function extend(source, target) {
     }
   }
   return source;
-}
+};
 
 /**
  * 合并属性
  */
-function merge(source, target) {
+exports.merge = function(source, target) {
   if (source === undefined) {
     source = {};
   }
@@ -49,20 +54,30 @@ function merge(source, target) {
     }
   }
   return source;
-}
-
-const exists = util.promisify(fs.exists);
-const readFile = util.promisify(fs.readFile);
-const writeFile = util.promisify(fs.writeFile);
-const readdir = util.promisify(fs.readdir);
-
-module.exports = {
-  load,
-  getParams,
-  merge,
-  extend,
-  exists,
-  readFile,
-  writeFile,
-  readdir
 };
+
+/**
+ * 下载模板
+ * @param <String> template 模板名称后缀
+ * @param <String target 保存的路径
+ */
+exports.download = function(template, target) {
+  target = target || cwd;
+  const download = load("download-git-repo");
+  const ora = load("ora");
+
+  const spinner = ora("loading...").start();
+  download(`liqiang0335/template-${template}`, target, err => {
+    spinner.stop();
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log("OK");
+  });
+};
+
+////////////////////////////////
+
+exports.cwd = cwd;
+exports.load = load;

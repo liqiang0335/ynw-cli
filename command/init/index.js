@@ -14,6 +14,7 @@ const write = async (
   console.log(`>> write [ ${fileName} ]`);
 };
 
+//批处理写入文件
 const batchFiles = async (context, source) => {
   const { fns } = context;
   const files = await fns.readdir(source, "utf-8");
@@ -24,12 +25,10 @@ const batchFiles = async (context, source) => {
 };
 
 module.exports = async context => {
-  const { init } = context;
+  const { init, fns } = context;
   if (!init) {
     return;
   }
-  const source = path.join(__dirname, "./", init);
-  const common = path.join(__dirname, "./", "common");
   batchFiles({ ...context, sourceFolderName: "common" }, common);
-  batchFiles(context, source);
+  fns.download(`init-${init}`);
 };
