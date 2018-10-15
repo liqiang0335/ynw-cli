@@ -11,7 +11,6 @@ const write = async (
   }
   const content = await fns.readFile(filePath, "utf-8");
   await fns.writeFile(target, content, "utf-8");
-  console.log(`>> write [ ${fileName} ]`);
 };
 
 //批处理写入文件
@@ -29,6 +28,7 @@ module.exports = async context => {
   if (!init) {
     return;
   }
+  const common = path.join(__dirname, "./common");
   batchFiles({ ...context, sourceFolderName: "common" }, common);
   fns.download(`init-${init}`);
 };
