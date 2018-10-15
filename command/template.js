@@ -14,20 +14,16 @@ module.exports = async context => {
   const inquirer = load("inquirer");
   load("colors");
 
-  if (template === "true") {
-    inquirer.prompt(question).then(answers => {
-      const { to } = answers;
-      const target = path.join(cwd, to);
-      const exists = fs.existsSync(target);
-      if (exists) {
-        generator(load, "react", target);
-      } else {
-        console.log("目录不存在".red);
-      }
-    });
-    return;
-  }
-  generator(load, template, process.cwd());
+  inquirer.prompt(question).then(answers => {
+    const { to } = answers;
+    const target = path.join(cwd, to);
+    const exists = fs.existsSync(target);
+    if (exists) {
+      generator(load, template, target);
+    } else {
+      console.log("目录不存在".red);
+    }
+  });
 };
 
 function generator(load, template, target) {
