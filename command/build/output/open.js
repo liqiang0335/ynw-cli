@@ -7,7 +7,7 @@ let opened = false;
 module.exports = context => {
   const { hot, port } = context;
   if (opened || !hot) return;
-  const path = `http://localhost:${port}/dev.html`;
+  const path = `http://127.0.0.1:${port}/dev.html`;
   const cmd =
     process.platform == "win32"
       ? `start chrome ${path}`
