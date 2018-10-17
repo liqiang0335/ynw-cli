@@ -63,8 +63,8 @@ exports.merge = function(source, target) {
  */
 exports.download = function(template, target) {
   target = target || cwd;
-  const download = load("download-git-repo");
-  const ora = load("ora");
+  const download = require("download-git-repo");
+  const ora = require("ora");
 
   const spinner = ora("loading...").start();
   download(`liqiang0335/template-${template}`, target, err => {
