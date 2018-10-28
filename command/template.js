@@ -9,26 +9,25 @@ const question = [
 ];
 
 module.exports = async context => {
-  const { template, fns, cwd } = context;
-  const load = fns.load;
+  const { template, cwd } = context;
   const inquirer = require("inquirer");
-  load("colors");
+  require("colors");
 
   inquirer.prompt(question).then(answers => {
     const { to } = answers;
     const target = path.join(cwd, to);
     const exists = fs.existsSync(target);
     if (exists) {
-      generator(load, template, target);
+      generator(template, target);
     } else {
       console.log("目录不存在".red);
     }
   });
 };
 
-function generator(load, template, target) {
-  const download = load("download-git-repo");
-  const ora = load("ora");
+function generator(template, target) {
+  const download = require("download-git-repo");
+  const ora = require("ora");
 
   const spinner = ora("loading...").start();
   download(`liqiang0335/template-${template}`, target, err => {
