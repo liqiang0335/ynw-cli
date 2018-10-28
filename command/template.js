@@ -11,7 +11,7 @@ const question = [
 module.exports = async context => {
   const { template, fns, cwd } = context;
   const load = fns.load;
-  const inquirer = load("inquirer");
+  const inquirer = require("inquirer");
   load("colors");
 
   inquirer.prompt(question).then(answers => {
