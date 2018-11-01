@@ -1,6 +1,6 @@
 {
   "name": "ynw-cli",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "CLI for VUE & REACT",
   "main": "index.js",
   "scripts": {},
