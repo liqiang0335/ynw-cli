@@ -38,7 +38,7 @@ const parseInput = context => {
   const projectName = path.basename(projectPath);
   const distPath =
     "/" + entry.replace(/^\.[/\\]?/, "").replace(/\w+$/, "") + "/dist/";
-  const port = 9999;
+  const port = context.port || 9999;
 
   return {
     ...context,
