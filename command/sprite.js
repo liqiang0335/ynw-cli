@@ -1,20 +1,11 @@
 const path = require("path");
-let gulp, spritesmith;
 
 module.exports = context => {
   const { fns } = context;
   fns.load("colors");
-  try {
-    gulp = fns.load("gulp");
-    spritesmith = fns.load("gulp.spritesmith");
-    main();
-  } catch (e) {
-    console.log(`cnpm i --save-dev gulp gulp.spritesmith`.red);
-    console.log("请先安装依赖模块后重新运行".red);
-  }
-};
+  const gulp = require("gulp");
+  const spritesmith = require("gulp.spritesmith");
 
-function main() {
   const cwd = process.cwd();
   const config = require(path.join(cwd, "./ynw.config.js"));
   let gulpConfig = config.gulp;
@@ -48,4 +39,4 @@ function main() {
      width: ${w};height: ${h};}
   `;
   }
-}
+};
