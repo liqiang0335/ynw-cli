@@ -6,8 +6,8 @@ const static = "/dev.html";
 let done = false;
 
 const getInjection = context => {
-  const { extractCSS, splitModules, fileName } = context;
-  const host = "http://127.0.0.1:9999";
+  const { extractCSS, splitModules, fileName, port } = context;
+  const host = `http://127.0.0.1:${port}`;
   const result = { script: "", link: "" };
   result.script += `<script src="${host}/webpack-dev-server.js"></script>`;
   result.script += `<script src="${host}/dist/${fileName}.bundle.js"></script>`;
