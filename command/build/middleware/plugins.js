@@ -36,10 +36,10 @@ const cssMin = new OptimizeCssAssetsPlugin({
 });
 
 module.exports = context => option => {
-  const { extractCSS, splitModules, fileName } = context;
+  const { extractCSS, splitModules, fileName, hot } = context;
   option.plugins.push(new VueLoaderPlugin());
 
-  if (extractCSS) {
+  if (!hot && extractCSS) {
     option.plugins.push(cssMin);
     option.plugins.push(
       new MiniCssExtractPlugin({
