@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const fs = require("fs");
 const path = require("path");
 const fns = require("./util/fns");
 const commands = fns.getParams(process.argv);

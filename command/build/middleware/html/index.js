@@ -7,6 +7,7 @@ let done = false;
 
 const getInjection = context => {
   const { extractCSS, splitModules, fileName, port } = context;
+
   const host = `http://127.0.0.1:${port}`;
   const result = { script: "", link: "" };
   result.script += `<script src="${host}/webpack-dev-server.js"></script>`;

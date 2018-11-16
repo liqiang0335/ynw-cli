@@ -3,6 +3,7 @@ const webpack = load("webpack");
 const OptimizeCssAssetsPlugin = load("optimize-css-assets-webpack-plugin");
 const VueLoaderPlugin = load("vue-loader/lib/plugin");
 const MiniCssExtractPlugin = load("mini-css-extract-plugin");
+const path = require("path");
 
 const SplitPlugin = context => {
   const { fileName } = context;
@@ -36,10 +37,10 @@ const cssMin = new OptimizeCssAssetsPlugin({
 });
 
 module.exports = context => option => {
-  const { extractCSS, splitModules, fileName, hot } = context;
+  const { extractCSS, splitModules, fileName, dllPath, cwd } = context;
   option.plugins.push(new VueLoaderPlugin());
 
-  if (!hot && extractCSS) {
+  if (extractCSS) {
     option.plugins.push(cssMin);
     option.plugins.push(
       new MiniCssExtractPlugin({
@@ -52,5 +53,15 @@ module.exports = context => option => {
   if (splitModules) {
     option.plugins.push(SplitPlugin(context));
   }
+
+  if (dllPath) {
+    option.plugins.push(
+      new webpack.DllReferencePlugin({
+        manifest: path.join(cwd, dllPath, "manifest.json"),
+        context: cwd
+      })
+    );
+  }
+
   return option;
 };
