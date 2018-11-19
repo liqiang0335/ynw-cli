@@ -28,7 +28,8 @@ module.exports = async context => {
   if (!init) {
     return;
   }
-  const common = path.join(__dirname, "./common");
-  batchFiles({ ...context, sourceFolderName: "common" }, common);
+  // const common = path.join(__dirname, "./common");
+  // batchFiles({ ...context, sourceFolderName: "common" }, common);
+  fns.download(`init-common`);
   fns.download(`init-${init}`);
 };

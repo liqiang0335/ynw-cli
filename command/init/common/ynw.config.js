@@ -1,11 +1,9 @@
 /**
  * 路径均为相对根目录
- * `ynw version` : 版本号
- * `ynw init=[vue/react]` : 添加配置文件 [init=vue, init=react, --init --gulpfile]
- * `ynw build=app env=[dev/pro/hot]` : 开发环境构建/生产环境构建/热更新
- * `ynw build=app env=dev ftp=116` : 自动上传 dist 编译的文件到 116 服务器
  */
 module.exports = {
+  gulp: { src: "", dist: "" },
+  dll: { modules: {} },
   common: {
     // 指定babel转译的的版本
     browsers: ["ie >= 9"],
