@@ -37,7 +37,7 @@ const cssMin = new OptimizeCssAssetsPlugin({
 });
 
 module.exports = context => option => {
-  const { extractCSS, splitModules, fileName, dllPath, cwd } = context;
+  const { extractCSS, splitModules, fileName, dllPath, cwd, isDev } = context;
   option.plugins.push(new VueLoaderPlugin());
 
   if (extractCSS) {
@@ -54,13 +54,17 @@ module.exports = context => option => {
     option.plugins.push(SplitPlugin(context));
   }
 
-  if (dllPath) {
-    option.plugins.push(
-      new webpack.DllReferencePlugin({
-        manifest: path.join(cwd, dllPath, "manifest.json"),
-        context: cwd
-      })
-    );
+  //生产环境添加 DLL 插件
+  if (dllPath && !isDev) {
+    const dllPaths = Array.isArray(dllPath) ? dllPath : [dllPath];
+    dllPaths.forEach(item => {
+      option.plugins.push(
+        new webpack.DllReferencePlugin({
+          manifest: path.join(cwd, item, "manifest.json"),
+          context: cwd
+        })
+      );
+    });
   }
 
   return option;

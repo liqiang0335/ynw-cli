@@ -6,17 +6,10 @@ module.exports = context => option => {
     dpath,
     epath,
     env,
-    envPrefix,
     test
   } = context;
   const handler = {
-    dev: () => {
-      let target = envPublicPath || publicPath || distPath;
-      if (envPrefix) {
-        target = envPrefix + target;
-      }
-      return target;
-    },
+    dev: () => envPublicPath || publicPath || distPath,
     pro: () => {
       if (test) {
         return envPublicPath;
