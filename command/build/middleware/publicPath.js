@@ -6,26 +6,42 @@ module.exports = context => option => {
     dpath,
     epath,
     env,
+    envPrefix,
     test
   } = context;
   const handler = {
-    dev: () => envPublicPath || publicPath || distPath,
-    pro: () => {
-      if (test) {
-        return envPublicPath;
+    dev: () => {
+      let target = envPublicPath || publicPath || distPath;
+      if (envPrefix) {
+        target = envPrefix + target;
       }
-      return publicPath || distPath;
+      return target;
+    },
+
+    pro: () => {
+      let target = publicPath || distPath;
+      //如果域名为IP地址,则自动增加 envPrefix
+      const isIP = /^\d+\.\d+\.\d+\.\d+$/.test(window.location.hostname);
+      if ((isIP, envPrefix)) {
+        target = envPrefix + target;
+      }
+      return target;
     },
     hot: () => "/dist/"
   };
 
   let target = handler[env]();
+
+  // 开发环境强制使用 PublicPath
   if (dpath) {
     target = distPath;
   }
+
+  // 生产环境强制使用 envPublicPath
   if (epath) {
-    target = envPublicPath;
+    target = envPublicPath ? envPublicPath : envPrefix + target;
   }
+
   option.output.publicPath = target;
   return option;
 };
