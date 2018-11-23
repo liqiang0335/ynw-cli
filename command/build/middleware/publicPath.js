@@ -22,7 +22,7 @@ module.exports = context => option => {
       let target = publicPath || distPath;
       //如果域名为IP地址,则自动增加 envPrefix
       const isIP = /^\d+\.\d+\.\d+\.\d+$/.test(window.location.hostname);
-      if ((isIP, envPrefix)) {
+      if (isIP && envPrefix) {
         target = envPrefix + target;
       }
       return target;
