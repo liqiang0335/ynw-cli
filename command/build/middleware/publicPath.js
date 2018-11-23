@@ -21,10 +21,6 @@ module.exports = context => option => {
     pro: () => {
       let target = publicPath || distPath;
       //如果域名为IP地址,则自动增加 envPrefix
-      const isIP = /^\d+\.\d+\.\d+\.\d+$/.test(window.location.hostname);
-      if (isIP && envPrefix) {
-        target = envPrefix + target;
-      }
       return target;
     },
     hot: () => "/dist/"
