@@ -94,8 +94,9 @@ const exec = (callback, context) => (err, stats) => {
 };
 
 const createOption = ctx => {
-  const { hash } = ctx;
+  const { hash, isDev } = ctx;
   const filename = hash ? "[name].bundle.[hash:5].js" : "[name].bundle.js";
+  const externals = isDev ? {} : { ...ctx.externals };
   return {
     mode: ctx.mode,
     entry: { [ctx.fileName]: ctx.absolutePath },
@@ -111,7 +112,7 @@ const createOption = ctx => {
     },
     module: {},
     plugins: [],
-    externals: { ...ctx.externals }
+    externals
   };
 };
 
