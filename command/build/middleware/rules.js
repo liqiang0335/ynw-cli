@@ -1,8 +1,16 @@
 const load = require("./load");
 const MiniCssExtractPlugin = load("mini-css-extract-plugin");
+const path = require("path");
+const fs = require("fs");
 
 const createRule = context => {
-  const { isDev, hot, extractCSS } = context;
+  const { isDev, hot, extractCSS, projectPath } = context;
+
+  let antdTheme = {};
+  const themePath = path.join(projectPath, "/style/theme.json");
+  if (fs.existsSync(themePath)) {
+    antdTheme = require(themePath);
+  }
 
   const styleLoader = extractCSS
     ? MiniCssExtractPlugin.loader
@@ -29,7 +37,24 @@ const createRule = context => {
 
   return [
     { test: /\.css$/, use: [styleLoader, "css-loader"] },
-    { test: /\.scss$/, use: [styleLoader, "css-loader", "sass-loader"] },
+    {
+      test: /\.scss$/,
+      use: [styleLoader, "css-loader", "sass-loader"]
+    },
+    {
+      test: /\.less/,
+      use: [
+        styleLoader,
+        "css-loader",
+        {
+          loader: "less-loader",
+          options: {
+            modifyVars: antdTheme,
+            javascriptEnabled: true
+          }
+        }
+      ]
+    },
     jsloader,
     { test: /\.vue$/, loader: "vue-loader" },
     {

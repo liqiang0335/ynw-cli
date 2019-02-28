@@ -20,7 +20,6 @@ module.exports = context => option => {
 
     pro: () => {
       let target = publicPath || distPath;
-      //如果域名为IP地址,则自动增加 envPrefix
       return target;
     },
     hot: () => "/dist/"
