@@ -4,11 +4,14 @@ const path = require("path");
 const fs = require("fs");
 
 const createRule = context => {
-  const { isDev, hot, extractCSS, projectPath, cssIsModule } = context;
+  const { isDev, hot, extractCSS, projectPath, cssModules } = context;
+
+  const cssLoaderOptions = cssModules
+    ? "?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:7]"
+    : "";
 
   let antdTheme = {};
   const themePath = path.join(projectPath, "/style/theme.json");
-  const varsPath = path.join(projectPath, "/style/vars.scss");
 
   if (fs.existsSync(themePath)) {
     antdTheme = require(themePath);
@@ -37,27 +40,12 @@ const createRule = context => {
     jsloader.use.push("uglify-template-string-loader");
   }
 
-  return [
+  const result = [
     { test: /\.css$/, use: [styleLoader, "css-loader"] },
     {
       test: /\.scss$/,
-      use: [
-        styleLoader,
-        {
-          loader: "css-loader",
-          options: {
-            module: !!cssIsModule,
-            localIdentName: "[local]-[hash:base64:10]"
-          }
-        },
-        "sass-loader",
-        {
-          loader: "sass-resources-loader",
-          options: {
-            resources: varsPath
-          }
-        }
-      ]
+      exclude: /node_modules/,
+      use: [styleLoader, "css-loader" + cssLoaderOptions, "sass-loader"]
     },
     {
       test: /\.less/,
@@ -85,19 +73,28 @@ const createRule = context => {
       ]
     }
   ];
-};
 
-const postcssPipe = rules => {
-  rules.forEach(item => {
-    item.use.push("postcss-loader");
-  });
+  // add scss global
+  const varsPath = path.join(projectPath, "/style/var.scss");
+  if (fs.existsSync(varsPath)) {
+    result[1].use.push({
+      loader: "sass-resources-loader",
+      options: {
+        resources: varsPath
+      }
+    });
+  }
+
+  if (!context.isDev) {
+    result[0].use.push("postcss-loader");
+    result[1].use.push("postcss-loader");
+  }
+
+  return result;
 };
 
 module.exports = context => option => {
   const rules = createRule(context);
-  if (!context.isDev) {
-    postcssPipe([rules[0], rules[1]]);
-  }
   option.module.rules = rules;
   return option;
 };

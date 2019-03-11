@@ -33,12 +33,9 @@ module.exports = context => {
     const folder = dist || "dll";
     const target = path.join(cwd, folder, key);
     const mode = env == "dev" ? "development" : "production";
-
     const config = {
       mode,
-      entry: {
-        ["__lib__" + key]: library
-      },
+      entry: { library },
       output: {
         path: target,
         filename: `${key}.${env}.dll.js`,
