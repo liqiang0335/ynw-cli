@@ -4,10 +4,12 @@ const path = require("path");
 const fs = require("fs");
 
 const createRule = context => {
-  const { isDev, hot, extractCSS, projectPath } = context;
+  const { isDev, hot, extractCSS, projectPath, cssIsModule } = context;
 
   let antdTheme = {};
   const themePath = path.join(projectPath, "/style/theme.json");
+  const varsPath = path.join(projectPath, "/style/vars.scss");
+
   if (fs.existsSync(themePath)) {
     antdTheme = require(themePath);
   }
@@ -39,7 +41,23 @@ const createRule = context => {
     { test: /\.css$/, use: [styleLoader, "css-loader"] },
     {
       test: /\.scss$/,
-      use: [styleLoader, "css-loader", "sass-loader"]
+      use: [
+        styleLoader,
+        {
+          loader: "css-loader",
+          options: {
+            module: !!cssIsModule,
+            localIdentName: "[local]-[hash:base64:10]"
+          }
+        },
+        "sass-loader",
+        {
+          loader: "sass-resources-loader",
+          options: {
+            resources: varsPath
+          }
+        }
+      ]
     },
     {
       test: /\.less/,
