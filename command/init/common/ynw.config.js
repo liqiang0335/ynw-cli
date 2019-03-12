@@ -1,35 +1,35 @@
 /**
- * 路径均为相对根目录
- * `ynw version` : 版本号
- * `ynw init=[vue/react]` : 添加配置文件 [init=vue, init=react, --init --gulpfile]
- * `ynw build=app env=[dev/pro/hot]` : 开发环境构建/生产环境构建/热更新
- * `ynw build=app env=dev ftp=116` : 自动上传 dist 编译的文件到 116 服务器
+ * - 路径均为相对根目录
+ * - 如果报错缺少模块请使用cnpm命令安装
  */
 module.exports = {
+  gulp: {}, //制作雪碧图配置 { src:"源目录", dist:"存放目录" }
+  dll: {}, //加速构建速度时配置{ modules:{libs:['vue','vuex',...]}, dist:"存放目录" },
+  /**
+   * 通用的配置项
+   */
   common: {
-    // 指定babel转译的的版本
     browsers: ["ie >= 9"],
+    //指定不打包的库如:{vue:'Vue','vue-router':'Vue-Router'}
+    externals: {},
     devServer: {},
-    // 自动指定了 "@" 为入口文件夹的别名
+    //自动指定了"@"为项目打包目录的别名
     alias: {},
-    // webpack构建后自动上传dist文件夹下面的 *.bundle.js, *.bundle.css 文件
-    // 注意：仅在开发或者测试环境使用
-    ftpConfig: {
-      116: {
-        debounceTime: 2000, //上传频率（毫秒）
-        username: "",
-        port: 22,
-        host: "",
-        password: "",
-        remotePath: "" //重要（确保路径填写正确）
-      }
-    }
+    //在测试环境中自动在PublicPath前添加的前缀
+    //生产环境(env=pro)会自动去掉
+    //如果命令行中使用了"epath"会强制添加
+    envPrefix: ""
   },
+  /**
+   * 具体的配置项(会覆盖相应的通用配置项)
+   */
   keys: {
-    app: {
-      entry: "./app/index", //入口(不写后缀名)
-      extractCSS: false, //提取CSS到单独文件(生产环境)
-      splitModules: false //分离第三方模块到单独文件(生产环境)
+    //配置示例
+    demo: {
+      extractCSS: false, //提取CSS到单独文件(仅生产环境)
+      splitModules: false, //分离第三方模块到单独文件(仅生产环境)
+      cssModules: true, //是否启用CSSModules(仅.scss类型文件)
+      dllPath: "" //指定使用的dll库(manifest的文件夹路径)
     }
   }
 };
