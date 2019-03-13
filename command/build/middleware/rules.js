@@ -6,16 +6,27 @@ const fs = require("fs");
 const createRule = context => {
   const { isDev, hot, extractCSS, projectPath, cssModules } = context;
 
-  const cssLoaderOptions = cssModules
-    ? "?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:7]"
-    : "";
+  const cssLoader = cssModules
+    ? {
+        loader: "css-loader",
+        options: {
+          modules: true,
+          importLoaders: 1,
+          localIdentName: "[name]__[local]__[hash:base64:7]"
+        }
+      }
+    : "css-loader";
 
-  let antdTheme = {};
   const themePath = path.join(projectPath, "/style/theme.json");
-
-  if (fs.existsSync(themePath)) {
-    antdTheme = require(themePath);
-  }
+  const lessLoader = fs.existsSync(themePath)
+    ? {
+        loader: "less-loader",
+        options: {
+          modifyVars: require(themePath),
+          javascriptEnabled: true
+        }
+      }
+    : "less-loader";
 
   const styleLoader = extractCSS
     ? MiniCssExtractPlugin.loader
@@ -45,21 +56,11 @@ const createRule = context => {
     {
       test: /\.scss$/,
       exclude: /node_modules/,
-      use: [styleLoader, "css-loader" + cssLoaderOptions, "sass-loader"]
+      use: [styleLoader, cssLoader, "sass-loader"]
     },
     {
       test: /\.less/,
-      use: [
-        styleLoader,
-        "css-loader",
-        {
-          loader: "less-loader",
-          options: {
-            modifyVars: antdTheme,
-            javascriptEnabled: true
-          }
-        }
-      ]
+      use: [styleLoader, "css-loader", lessLoader]
     },
     jsloader,
     { test: /\.vue$/, loader: "vue-loader" },
