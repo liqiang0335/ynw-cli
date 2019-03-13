@@ -1,6 +1,8 @@
 /**
  * - 路径均为相对根目录
  * - 如果报错缺少模块请使用cnpm命令安装
+ * - style/var.scss 约定为 SCSS 全局变量(无需引入)
+ * - style/theme.json 约定为 AntDesign 主题文件(无需引入)
  */
 module.exports = {
   gulp: {}, //制作雪碧图配置 { src:"源目录", dist:"存放目录" }

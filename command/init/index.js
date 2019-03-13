@@ -1,6 +1,8 @@
 const path = require("path");
 const load = require("../build/middleware/load");
 
+console.log(">>>>>>>>>>>>>>");
+
 const write = async (
   { fns, cwd, sourceFolderName },
   { filePath, fileName }
