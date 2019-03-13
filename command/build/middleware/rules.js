@@ -18,15 +18,9 @@ const createRule = context => {
     : "css-loader";
 
   const themePath = path.join(projectPath, "/style/theme.json");
-  const lessLoader = fs.existsSync(themePath)
-    ? {
-        loader: "less-loader",
-        options: {
-          modifyVars: require(themePath),
-          javascriptEnabled: true
-        }
-      }
-    : "less-loader";
+  const lessOptions = fs.existsSync(themePath)
+    ? { modifyVars: require(themePath) }
+    : null;
 
   const styleLoader = extractCSS
     ? MiniCssExtractPlugin.loader
@@ -60,7 +54,17 @@ const createRule = context => {
     },
     {
       test: /\.less/,
-      use: [styleLoader, "css-loader", lessLoader]
+      use: [
+        styleLoader,
+        "css-loader",
+        {
+          loader: "less-loader",
+          options: {
+            ...lessOptions,
+            javascriptEnabled: true
+          }
+        }
+      ]
     },
     jsloader,
     { test: /\.vue$/, loader: "vue-loader" },
