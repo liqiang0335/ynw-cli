@@ -38,5 +38,6 @@ module.exports = async context => {
   const packagePath = path.join(cwd, "package.json");
   const package = require(packagePath);
   package.devDependencies = remote.data.devDependencies;
+  package.scripts.start = "ynw build=app entry=app/index env=hot";
   fns.writeFile(packagePath, JSON.stringify(package));
 };
