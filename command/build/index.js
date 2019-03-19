@@ -29,8 +29,9 @@ const parseInput = context => {
 
   const entry = context.entry || values.entry;
 
-  const hot = context.env === "hot" ? true : false;
+  const hot = env === "hot";
   const isDev = env !== "pro" ? true : false;
+  const isPro = env === "pro";
   const mode = isDev ? "development" : "production";
   const fileName = path.basename(entry);
   const absolutePath = path.join(cwd, entry);
@@ -47,6 +48,7 @@ const parseInput = context => {
     ...values,
     hot,
     isDev,
+    isPro,
     mode,
     fileName,
     absolutePath,

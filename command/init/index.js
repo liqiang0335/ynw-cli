@@ -1,8 +1,6 @@
 const path = require("path");
 const load = require("../build/middleware/load");
 
-console.log(">>>>>>>>>>>>>>");
-
 const write = async (
   { fns, cwd, sourceFolderName },
   { filePath, fileName }
@@ -16,7 +14,7 @@ const write = async (
 };
 
 //批处理写入文件
-const batchFiles = async (context, source) => {
+const addFiles = async (context, source) => {
   const { fns } = context;
   const files = await fns.readdir(source, "utf-8");
   files.forEach(fileName => {
@@ -26,11 +24,19 @@ const batchFiles = async (context, source) => {
 };
 
 module.exports = async context => {
-  const { init, fns } = context;
+  const { init, fns, cwd } = context;
+  const axios = require("axios");
   if (!init) {
     return;
   }
   const common = path.join(__dirname, "./common");
-  batchFiles({ ...context, sourceFolderName: "common" }, common);
-  fns.download(`init-${init}`);
+  await fns.download(`init-${init}`);
+  addFiles({ ...context, sourceFolderName: "common" }, common);
+
+  const REMOTE_PATH = "https://www.jsgaotie.com/config/ynw-cli.json";
+  const remote = await axios.get(REMOTE_PATH);
+  const packagePath = path.join(cwd, "package.json");
+  const package = require(packagePath);
+  package.devDependencies = remote.data.devDependencies;
+  fns.writeFile(packagePath, JSON.stringify(package));
 };

@@ -14,7 +14,10 @@ npm i -g ynw-cli
 - `ynw template=vue` 下载模板
 - `ynw cros` : 打开可以跨域的 Chrome
 
-## 约定
+### 构建项目
 
-- 每个项目的 style 文件夹下的 `var.scss` 文件为 scss 全局变量(无需引入)
-- 每个项目的 style 文件夹下的 `theme.json` 文件为 antd 主题文件(无需引入)
+```shell
+ynw init=vue
+cnpm install
+ynw build=app
+```

@@ -37,7 +37,16 @@ const cssMin = new OptimizeCssAssetsPlugin({
 });
 
 module.exports = context => option => {
-  const { extractCSS, splitModules, fileName, dllPath, cwd, isDev } = context;
+  const {
+    extractCSS,
+    splitModules,
+    fileName,
+    dllPath,
+    cwd,
+    isDev,
+    analyzer,
+    isPro
+  } = context;
   option.plugins.push(new VueLoaderPlugin());
 
   if (extractCSS) {
@@ -65,6 +74,22 @@ module.exports = context => option => {
         })
       );
     });
+  }
+
+  if (isPro && analyzer) {
+    const { BundleAnalyzerPlugin } = load("webpack-bundle-analyzer");
+    option.plugins.push(
+      new BundleAnalyzerPlugin({
+        analyzerMode: "static",
+        reportFilename: "report.html",
+        defaultSizes: "parsed",
+        openAnalyzer: false,
+        generateStatsFile: false,
+        statsFilename: "stats.json",
+        statsOptions: null,
+        logLevel: "info"
+      })
+    );
   }
 
   return option;

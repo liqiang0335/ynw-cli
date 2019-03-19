@@ -32,8 +32,7 @@ const createRule = context => {
     exclude: hot
       ? /node_modules/
       : file => {
-          if (/ynw/.test(file)) return false;
-          return /node_modules/.test(file);
+          return !/ynw/.test(file) ? false : /node_modules/.test(file);
         }
   };
 

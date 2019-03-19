@@ -16,15 +16,17 @@ exports.readdir = util.promisify(fs.readdir);
  */
 exports.getParams = function(arr) {
   const reg = /=|--/i;
-  const result = arr.filter((_, i) => i > 1).reduce((acc, cur) => {
-    if (!reg.test(cur)) {
-      cur = `${cur}=true`;
-    }
-    cur = cur.replace(/--([^\s]+)/, "$1=true");
-    const [key, value] = cur.split("=");
-    acc[key] = value;
-    return acc;
-  }, {});
+  const result = arr
+    .filter((_, i) => i > 1)
+    .reduce((acc, cur) => {
+      if (!reg.test(cur)) {
+        cur = `${cur}=true`;
+      }
+      cur = cur.replace(/--([^\s]+)/, "$1=true");
+      const [key, value] = cur.split("=");
+      acc[key] = value;
+      return acc;
+    }, {});
   return result;
 };
 
@@ -62,18 +64,20 @@ exports.merge = function(source, target) {
  * @param <String target 保存的路径
  */
 exports.download = function(template, target) {
-  target = target || cwd;
-  const download = require("download-git-repo");
-  const ora = require("ora");
+  return new Promise(resolve => {
+    target = target || cwd;
+    const download = require("download-git-repo");
+    const ora = require("ora");
 
-  const spinner = ora("loading...").start();
-  download(`liqiang0335/template-${template}`, target, err => {
-    spinner.stop();
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log("OK");
+    const spinner = ora("loading...").start();
+    download(`liqiang0335/template-${template}`, target, err => {
+      spinner.stop();
+      if (err) {
+        throw new Error("下载模板时出错");
+      }
+      console.log("OK");
+      resolve();
+    });
   });
 };
 
