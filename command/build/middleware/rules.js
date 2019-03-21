@@ -29,11 +29,7 @@ const createRule = context => {
   const jsloader = {
     test: /\.js$/,
     use: ["babel-loader"],
-    exclude: hot
-      ? /node_modules/
-      : file => {
-          return !/ynw/.test(file) ? false : /node_modules/.test(file);
-        }
+    exclude: /node_modules/
   };
 
   if (!hot) {
