@@ -19,18 +19,19 @@ module.exports = {
     //在测试环境中自动在PublicPath前添加的前缀
     //生产环境(env=pro)会自动去掉
     //如果命令行中使用了"epath"会强制添加
-    envPrefix: ""
+    envPrefix: "",
+    extractCSS: false, //提取CSS到单独文件(仅生产环境)
+    splitModules: false, //分离第三方模块到单独文件(仅生产环境)
+    cssModules: true, //是否启用CSSModules(仅.scss类型文件)
+    dllPath: "" //指定使用的dll库(manifest的文件夹路径)
   },
   /**
-   * 具体的配置项(会覆盖相应的通用配置项)
+   * keys下面的字段为具体的配置项(会覆盖相应的通用配置项)
    */
   keys: {
-    //配置示例
+    // demo为具体项目文件夹的名称
     demo: {
-      extractCSS: false, //提取CSS到单独文件(仅生产环境)
-      splitModules: false, //分离第三方模块到单独文件(仅生产环境)
-      cssModules: true, //是否启用CSSModules(仅.scss类型文件)
-      dllPath: "" //指定使用的dll库(manifest的文件夹路径)
+      extractCSS: true
     }
   }
 };
