@@ -1,4 +1,4 @@
-const openBrowser = require("ynw-cli/util/openBrowser");
+const openBrowser = require("../util/openBrowser");
 const { HOST } = require("../util/const");
 
 module.exports = async context => {
