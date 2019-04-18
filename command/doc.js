@@ -5,7 +5,7 @@ module.exports = async context => {
   const { doc, argv } = context;
   if (!doc) return;
 
-  const UTILS_PATH = "https://liqiang0335.github.io/template-utils/#/";
+  const UTILS_PATH = "https://liqiang0335.github.io/ynw-utils/#/";
   const CONFIG_PATH = "/config/ynw-doc.json";
   const ERROE_MESSAGE = "未找到相关路径";
   const DEFAULT_NAME = "utils";
