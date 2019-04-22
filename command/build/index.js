@@ -107,16 +107,16 @@ const getExternals = ctx => {
 const createOption = ctx => {
   const { hash } = ctx;
   const filename = hash ? "[name].bundle.[hash:5].js" : "[name].bundle.js";
-
   const externals = getExternals(ctx);
+  const target = ctx.target || "web";
 
-  return {
+  const result = {
     mode: ctx.mode,
     entry: { [ctx.fileName]: ctx.absolutePath },
-    target: ctx.target || "web",
+    target,
     output: {
-      path: ctx.projectPath + "/dist/",
       filename,
+      path: ctx.projectPath + "/dist/",
       chunkFilename: `${ctx.fileName}.chunk.[name].js`
     },
     resolve: {
@@ -127,6 +127,15 @@ const createOption = ctx => {
     plugins: [],
     externals
   };
+
+  if (target === "node") {
+    result.node = {
+      __dirname: false,
+      __filename: false
+    };
+  }
+
+  return result;
 };
 
 const main = context => {
