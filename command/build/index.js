@@ -1,13 +1,12 @@
 /**
  * package
  */
-const fs = require("fs");
 const path = require("path");
 const load = require("./middleware/load");
 const webpack = load("webpack");
 const colors = load("colors");
 const WebpackDevServer = load("webpack-dev-server");
-const nodeExternals = load("webpack-node-externals");
+
 const log = (key, value) => console.log(`${key}`.green, value);
 
 const execMiddleware = require("./output");
@@ -99,6 +98,7 @@ const exec = (callback, context) => (err, stats) => {
 const getExternals = ctx => {
   const { externals, target, isDev } = ctx;
   if (["electron-main", "node"].includes(target)) {
+    const nodeExternals = load("webpack-node-externals");
     return [nodeExternals()];
   }
   return isDev ? {} : externals;
@@ -107,6 +107,8 @@ const getExternals = ctx => {
 const createOption = ctx => {
   const { hash } = ctx;
   const filename = hash ? "[name].bundle.[hash:5].js" : "[name].bundle.js";
+
+  const externals = getExternals(ctx);
 
   return {
     mode: ctx.mode,
@@ -123,7 +125,7 @@ const createOption = ctx => {
     },
     module: {},
     plugins: [],
-    externals: getExternals(ctx)
+    externals
   };
 };
 
