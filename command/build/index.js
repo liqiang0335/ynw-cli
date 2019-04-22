@@ -7,7 +7,7 @@ const load = require("./middleware/load");
 const webpack = load("webpack");
 const colors = load("colors");
 const WebpackDevServer = load("webpack-dev-server");
-const VueLoaderPlugin = load("vue-loader/lib/plugin");
+const log = (key, value) => console.log(`${key}`.green, value);
 
 const execMiddleware = require("./output");
 const optionMiddleware = require("./middleware");
@@ -128,8 +128,15 @@ const main = context => {
 
   if (ctx.debug) {
     console.log("-----------------------------------------------");
-    console.log(JSON.stringify(option));
+    log("mode", option.mode);
+    log("entry", option.entry);
+    log("target", option.target);
+    log("output", option.output.path);
+    log("publicPath", option.output.publicPath);
+    log("alias", option.resolve.alias);
+    log("externals", option.externals);
     console.log("-----------------------------------------------");
+    return;
   }
 
   // hot
