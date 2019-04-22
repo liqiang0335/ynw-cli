@@ -1,6 +1,6 @@
 {
   "name": "ynw-cli",
-  "version": "1.3.7",
+  "version": "1.3.0",
   "description": "CLI for VUE & REACT",
   "main": "index.js",
   "scripts": {},
@@ -13,8 +13,7 @@
   ],
   "author": "liqiang0335@qq.com",
   "bin": {
-    "ynw": "./index.js",
-    "yn": "./index.js"
+    "ynw": "./index.js"
   },
   "repository": {
     "type": "git",

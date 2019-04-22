@@ -4,7 +4,14 @@ const path = require("path");
 const fs = require("fs");
 
 const createRule = context => {
-  const { isDev, hot, extractCSS, projectPath, cssModules } = context;
+  const {
+    isDev,
+    hot,
+    extractCSS,
+    projectPath,
+    cssModules,
+    ynwLoader
+  } = context;
 
   const cssLoader = cssModules
     ? {
@@ -33,7 +40,9 @@ const createRule = context => {
   };
 
   if (!hot) {
-    jsloader.use.unshift("ynw-loader");
+    if (ynwLoader !== false) {
+      jsloader.use.unshift("ynw-loader");
+    }
   }
 
   if (!isDev) {

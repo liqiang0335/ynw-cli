@@ -7,6 +7,7 @@ const load = require("./middleware/load");
 const webpack = load("webpack");
 const colors = load("colors");
 const WebpackDevServer = load("webpack-dev-server");
+const VueLoaderPlugin = load("vue-loader/lib/plugin");
 const log = (key, value) => console.log(`${key}`.green, value);
 
 const execMiddleware = require("./output");
@@ -127,6 +128,8 @@ const main = context => {
   const compiler = webpack(option);
 
   if (ctx.debug) {
+    console.log("-----------------------------------------------");
+    console.log(ctx);
     console.log("-----------------------------------------------");
     log("mode", option.mode);
     log("entry", option.entry);
