@@ -7,7 +7,7 @@ const load = require("./middleware/load");
 const webpack = load("webpack");
 const colors = load("colors");
 const WebpackDevServer = load("webpack-dev-server");
-const VueLoaderPlugin = load("vue-loader/lib/plugin");
+const nodeExternals = load("webpack-node-externals");
 const log = (key, value) => console.log(`${key}`.green, value);
 
 const execMiddleware = require("./output");
@@ -96,10 +96,18 @@ const exec = (callback, context) => (err, stats) => {
   }
 };
 
+const getExternals = ctx => {
+  const { externals, target, isDev } = ctx;
+  if (["electron-main", "node"].includes(target)) {
+    return [nodeExternals()];
+  }
+  return isDev ? {} : externals;
+};
+
 const createOption = ctx => {
-  const { hash, isDev } = ctx;
+  const { hash } = ctx;
   const filename = hash ? "[name].bundle.[hash:5].js" : "[name].bundle.js";
-  const externals = isDev ? {} : { ...ctx.externals };
+
   return {
     mode: ctx.mode,
     entry: { [ctx.fileName]: ctx.absolutePath },
@@ -115,7 +123,7 @@ const createOption = ctx => {
     },
     module: {},
     plugins: [],
-    externals
+    externals: getExternals(ctx)
   };
 };
 
