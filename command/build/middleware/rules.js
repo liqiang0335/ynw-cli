@@ -34,7 +34,7 @@ const createRule = context => {
     : "vue-style-loader";
 
   const jsloader = {
-    test: /\.js$/,
+    test: /\.jsx?$/,
     use: ["babel-loader"],
     exclude: /node_modules/
   };
