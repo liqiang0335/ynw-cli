@@ -36,7 +36,7 @@ const createRule = context => {
   const jsloader = {
     test: /\.jsx?$/,
     use: ["babel-loader"],
-    exclude: /node_modules(?!(\/|\\)ynw)/
+    exclude: /node_modules(?!(\/|\\)_?ynw)/
   };
 
   if (!hot) {
@@ -71,6 +71,7 @@ const createRule = context => {
       ]
     },
     jsloader,
+
     { test: /\.vue$/, loader: "vue-loader" },
     {
       test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg)(\?.+)?$/,
