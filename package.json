@@ -3,7 +3,7 @@
     "name": "liqiang0335@qq.com"
   },
   "bin": {
-    "ynw": "./index.js"
+    "yn": "./index.js"
   },
   "bugs": {
     "url": "https://github.com/liqiang0335/ynw-cli/issues"
@@ -11,7 +11,7 @@
   "bundleDependencies": false,
   "dependencies": {
     "axios": "^0.18.0",
-    "colors": "^1.3.2",
+    "colors": "^1.3.3",
     "download-git-repo": "^1.1.0",
     "inquirer": "^6.2.0",
     "ora": "^3.0.0"
@@ -33,6 +33,8 @@
     "type": "git",
     "url": "git+https://github.com/liqiang0335/ynw-cli.git"
   },
-  "scripts": {},
-  "version": "1.5.0"
+  "scripts": {
+    "p": "npm publish --tag=beta"
+  },
+  "version": "2.0-beta"
 }

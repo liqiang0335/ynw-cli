@@ -2,13 +2,6 @@ const fs = require("fs");
 const path = require("path");
 const util = require("util");
 
-const cwd = process.cwd();
-const load = name => require(path.join(cwd, "node_modules", name));
-
-exports.exists = util.promisify(fs.exists);
-exports.readFile = util.promisify(fs.readFile);
-exports.writeFile = util.promisify(fs.writeFile);
-exports.readdir = util.promisify(fs.readdir);
 /**
  * 获取命令行的参数
  * dep 等价于 dep=true

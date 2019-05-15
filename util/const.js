@@ -1,3 +1,1 @@
-module.exports = {
-  HOST: "http://www.jsgaotie.com"
-};
+exports.HOST = "http://www.jsgaotie.com";
