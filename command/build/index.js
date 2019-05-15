@@ -105,7 +105,7 @@ const getExternals = ctx => {
 };
 
 const createOption = ctx => {
-  const { hash } = ctx;
+  const { hash, dist } = ctx;
   const filename = hash ? "[name].bundle.[hash:5].js" : "[name].bundle.js";
   const externals = getExternals(ctx);
   const target = ctx.target || "web";
@@ -116,7 +116,7 @@ const createOption = ctx => {
     target,
     output: {
       filename,
-      path: ctx.projectPath + "/dist/",
+      path: dist || ctx.projectPath + "/dist/",
       chunkFilename: `${ctx.fileName}.chunk.[name].js`
     },
     resolve: {
