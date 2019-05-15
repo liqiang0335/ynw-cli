@@ -22,7 +22,7 @@ module.exports = context => {
 };
 
 const parseInput = context => {
-  const { cwd, env, build } = context;
+  const { cwd, env, build, dist } = context;
   const config = require(path.join(cwd, "ynw.config.js"));
   const { extra, common } = config;
   const values = config["keys"][build];
@@ -38,7 +38,7 @@ const parseInput = context => {
   const projectPath = path.dirname(absolutePath);
   const projectName = path.basename(projectPath);
   const distPath =
-    "/" + entry.replace(/^\.[/\\]?/, "").replace(/\w+$/, "") + "/dist/";
+    dist || "/" + entry.replace(/^\.[/\\]?/, "").replace(/\w+$/, "") + "/dist/";
   const port = context.port || 9999;
 
   return {
