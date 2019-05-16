@@ -9,7 +9,7 @@ const {
 
 module.exports = argv => main(argv);
 
-const parseInput = argv => {
+function parseInput(argv) {
   const { build, env } = argv;
   const defaultOption = {
     target: "web",
@@ -43,7 +43,7 @@ const parseInput = argv => {
   });
 
   print("用户配置参数", result);
-};
+}
 
 // const exec = (callback, context) => (err, stats) => {
 //   if (err) {
@@ -106,48 +106,14 @@ function createWebpackOption(inputs) {
 }
 
 function main(argv) {
-  const inputs = parseInput(argv);
   const optionDecorator = require("./options/optionDecorator");
+  const inputs = parseInput(argv);
   let options = optionDecorator(createWebpackOption(inputs));
+  require("./before/createDev")(options);
+  require("./before/log")(options);
 
-  // const option = applyMiddleware(ctx, optionMiddleware)(base);
-  // const launch = exec(applyMiddleware(ctx, execMiddleware), ctx);
-  // const watchOps = { aggregateTimeout: 300, poll: 1000 };
-  // const compiler = webpack(option);
-
-  // if (ctx.debug) {
-  //   console.log("-----------------------------------------------");
-  //   console.log(ctx);
-  //   console.log("-----------------------------------------------");
-  //   log("mode", option.mode);
-  //   log("entry", option.entry);
-  //   log("target", option.target);
-  //   log("output", option.output.path);
-  //   log("publicPath", option.output.publicPath);
-  //   log("alias", option.resolve.alias);
-  //   log("externals", option.externals);
-  //   console.log("-----------------------------------------------");
-  //   return;
-  // }
-
-  // hot
-  // if (ctx.hot) {
-  //   WebpackDevServer.addDevServerEntrypoints(option, option.devServer);
-  //   new WebpackDevServer(compiler, option.devServer).listen(
-  //     ctx.port,
-  //     "localhost",
-  //     () => console.log(`http://127.0.0.1:9999/dev.html`.green)
-  //   );
-  //   const open = require(path.join(__dirname, "./output/open"));
-  //   setTimeout(f => open(ctx), 2000);
-  //   return;
-  // }
-
-  // const package = {
-  //   production: f => compiler.run(launch),
-  //   development: f => compiler.watch(watchOps, launch)
-  // };
-  // package[ctx.mode]();
+  const watchOps = { aggregateTimeout: 300, poll: 1000 };
+  const compiler = webpack(options);
 }
 
 ////////////////////////////////////////////////////////////
