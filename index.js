@@ -1,19 +1,22 @@
 #!/usr/bin/env node
 
 const path = require("path");
-const { readdir } = require("./util/fs");
+const fs = require("fs");
+const print = require("./util/print");
 require("colors");
 
-(async function() {
+main();
+function main() {
   const folder = path.join(__dirname, "./commands");
-  const keys = getCommands(await readdir(folder));
+  const keys = getCommands(fs.readdirSync(folder));
   const key = getKey();
   if (keys.includes(key)) {
     const getParams = require("./util/getParams");
-    const context = getParams(process.argv);
-    require(`./commands/${key}`)(context);
+    const argv = getParams(process.argv);
+    print("用户输入的参数", argv);
+    require(`./commands/${key}`)(argv);
   }
-})();
+}
 
 function getCommands(folder) {
   return folder

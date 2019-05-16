@@ -10,3 +10,5 @@
 - 开发/生产环境
 - 版本更新提示
 - RXJS
+- 切换 babel.config
+- copy
