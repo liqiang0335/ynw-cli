@@ -11,7 +11,7 @@ function main() {
   const keys = getCommands(fs.readdirSync(folder));
   const key = getKey();
   if (keys.includes(key)) {
-    const getParams = require("./util/getParams");
+    const { getParams } = require("./util/fns");
     const argv = getParams(process.argv);
     print("用户输入的参数", argv);
     require(`./commands/${key}`)(argv);

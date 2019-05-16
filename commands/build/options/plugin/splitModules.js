@@ -2,7 +2,11 @@ const load = require("../../../../util/load");
 const webpack = load("webpack");
 
 module.exports = context => {
-  const { fileName } = context;
+  const { fileName, splitModules } = context;
+  if (!splitModules) {
+    return;
+  }
+
   return new webpack.optimize.SplitChunksPlugin({
     chunks: "all",
     minSize: 30000, //形成一个新代码块最小的体积

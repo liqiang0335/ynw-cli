@@ -1,10 +1,4 @@
-/**
- * package
- */
 const path = require("path");
-const load = require("../../util/load");
-const webpack = load("webpack");
-const WebpackDevServer = load("webpack-dev-server");
 const print = require("../../util/print");
 const cwd = process.cwd();
 const {
@@ -17,11 +11,17 @@ module.exports = argv => main(argv);
 
 const parseInput = argv => {
   const { build, env } = argv;
+  const defaultOption = {
+    target: "web",
+    env: "dev",
+    port: 9999,
+    dist: "/dist/"
+  };
   const config = require(YNW_CONFIG_PATH);
   const pageOption = getPageOption(config, build);
 
   // 权重: common < page < cli
-  const options = Object.assign(config.common, pageOption, argv);
+  const options = Object.assign(defaultOption, config.common, pageOption, argv);
   const isHot = env === "hot";
   const isDev = env === "dev";
   const isPro = env === "pro";
@@ -29,6 +29,7 @@ const parseInput = argv => {
   const fileName = path.basename(options.entry);
   const absolutePath = path.join(cwd, options.entry);
   const projectPath = path.dirname(absolutePath);
+  const distPath = options.dist || path.join(projectPath + "/dist/");
 
   const result = Object.assign({}, options, {
     isHot,
@@ -37,10 +38,11 @@ const parseInput = argv => {
     notPro,
     fileName,
     absolutePath,
-    projectPath
+    projectPath,
+    distPath
   });
 
-  print("用户配置的参数", result);
+  print("用户配置参数", result);
 };
 
 // const exec = (callback, context) => (err, stats) => {
@@ -81,22 +83,25 @@ const parseInput = argv => {
 
 function createWebpackOption(inputs) {
   const filename = require("./options/filename")(inputs);
-  const outputPath = require("./options/path")(inputs);
   const alias = require("./options/alias")(inputs);
   const externals = require("./options/externals")(inputs);
   const plugins = require("./options/plugins")(inputs);
   const rules = require("./options/rules")(inputs);
+  const devServer = require("./options/devServer");
+  const publicPath = require("./options/publicPath");
+
   const chunkFilename = `${inputs.fileName}.chunk.[name].js`;
 
   return {
     mode: inputs.isPro ? PRODUCTION : DEVELOPMENT,
     entry: { [inputs.fileName]: inputs.absolutePath },
-    target: inputs.target || "web",
-    output: { filename, path: outputPath, chunkFilename },
+    target: inputs.target,
+    output: { filename, path: inputs.distPath, chunkFilename, publicPath },
     resolve: { alias, extensions: [".js", ".vue", ".jsx"] },
     module: { rules },
     externals,
-    plugins
+    plugins,
+    devServer
   };
 }
 

@@ -1,7 +1,3 @@
-const fs = require("fs");
-const path = require("path");
-const util = require("util");
-
 /**
  * 获取命令行的参数
  * dep 等价于 dep=true
@@ -36,45 +32,12 @@ exports.extend = function(source, target) {
   return source;
 };
 
-/**
- * 合并属性
- */
-exports.merge = function(source, target) {
-  if (source === undefined) {
-    source = {};
+exports.toArray = function(source) {
+  if (Array.isArray(source)) {
+    return source;
   }
-  for (var key in target) {
-    if (target[key] !== undefined) {
-      source[key] = target[key];
-    }
+  if (!source) {
+    return [];
   }
-  return source;
+  return [source];
 };
-
-/**
- * 下载模板
- * @param <String> template 模板名称后缀
- * @param <String target 保存的路径
- */
-exports.download = function(template, target) {
-  return new Promise(resolve => {
-    target = target || cwd;
-    const download = require("download-git-repo");
-    const ora = require("ora");
-
-    const spinner = ora("loading...").start();
-    download(`liqiang0335/template-${template}`, target, err => {
-      spinner.stop();
-      if (err) {
-        throw new Error("下载模板时出错");
-      }
-      console.log("OK");
-      resolve();
-    });
-  });
-};
-
-////////////////////////////////
-
-exports.cwd = cwd;
-exports.load = load;

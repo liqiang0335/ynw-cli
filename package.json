@@ -34,7 +34,7 @@
     "url": "git+https://github.com/liqiang0335/ynw-cli.git"
   },
   "scripts": {
-    "p": "npm publish --tag=beta"
+    "beta": "npm publish --tag=beta"
   },
   "version": "2.0-beta",
   "devDependencies": {
