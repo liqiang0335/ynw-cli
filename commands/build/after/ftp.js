@@ -1,6 +1,5 @@
-const load = require("../middleware/load");
+const load = require("../../../util/load");
 const path = require("path");
-load("colors");
 
 const SFTP = context => {
   let ready = false;

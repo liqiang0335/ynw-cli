@@ -1,9 +1,9 @@
-//
+// babel-loader Option
 module.exports = ({ ynwLoader, notHot, isPro, target }) => {
   const { YNW_BABEL_PATH, PACKAGE_JSON } = require("../../../../util/const");
   const { dependencies } = require(PACKAGE_JSON);
-  const { react, vue } = require(YNW_BABEL_PATH);
-  let options = dependencies.rect ? react : vue;
+  const babelOptions = require(YNW_BABEL_PATH);
+  let options = dependencies.react ? babelOptions.react : babelOptions.vue;
 
   const use = [];
 

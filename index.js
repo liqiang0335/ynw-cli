@@ -2,7 +2,6 @@
 
 const path = require("path");
 const fs = require("fs");
-const print = require("./util/print");
 require("colors");
 
 main();
@@ -13,7 +12,6 @@ function main() {
   if (keys.includes(key)) {
     const { getParams } = require("./util/fns");
     const argv = getParams(process.argv);
-    print("用户输入的参数", argv);
     require(`./commands/${key}`)(argv);
   }
 }

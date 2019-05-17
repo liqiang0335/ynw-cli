@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 
 module.exports = ({ projectPath, themePath }) => {
   const localPath = path.join(projectPath, "/style/theme.json");

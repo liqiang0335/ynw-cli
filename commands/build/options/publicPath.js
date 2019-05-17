@@ -20,7 +20,7 @@ module.exports = ctx => {
   }
 
   if (epath || isDev) {
-    return envPrefix + (envPublicPath || publicPath || distPath);
+    return envPrefix + (envPublicPath || publicPath || distPath || "./dist/");
   }
 
   if (isPro) {

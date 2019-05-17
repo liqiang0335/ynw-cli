@@ -12,7 +12,7 @@ const absolutePath = alias => {
 module.exports = ({ alias, projectPath }) => {
   return {
     vue$: "vue/dist/vue.esm",
-    "@": inputs.projectPath,
+    "@": projectPath,
     ...absolutePath(alias)
   };
 };
