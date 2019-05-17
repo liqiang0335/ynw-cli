@@ -1,11 +1,15 @@
 const path = require("path");
-const print = require("../../util/print");
+const load = reuqire("../../util/load");
+const webpack = load("webpack");
 const cwd = process.cwd();
 const {
+  HOT_URL,
   YNW_CONFIG_PATH,
   PRODUCTION,
   DEVELOPMENT
 } = require("../../util/const");
+const { getPageOption } = require("../../util/fns");
+const openBrowser = require("../../util/openBrowser");
 
 module.exports = argv => main(argv);
 
@@ -41,8 +45,6 @@ function parseInput(argv) {
     projectPath,
     distPath
   });
-
-  print("用户配置参数", result);
 }
 
 // const exec = (callback, context) => (err, stats) => {
@@ -108,17 +110,35 @@ function createWebpackOption(inputs) {
 function main(argv) {
   const optionDecorator = require("./options/optionDecorator");
   const inputs = parseInput(argv);
-  let options = optionDecorator(createWebpackOption(inputs));
-  require("./before/createDev")(options);
-  require("./before/log")(options);
-
-  const watchOps = { aggregateTimeout: 300, poll: 1000 };
-  const compiler = webpack(options);
+  const options = optionDecorator(createWebpackOption(inputs));
+  before(ctx, options);
+  run(ctx, options);
 }
 
-////////////////////////////////////////////////////////////
+function before(ctx, options) {
+  require("./before/createDev")(ctx, options);
+  require("./before/log")(ctx, options);
+}
 
-function getPageOption(config, key) {
-  const option = Object.assign({}, config.pages, config.keys);
-  return option[key] || {};
+function run(ctx, options) {
+  const { devServer } = options;
+  const { isHot } = ctx;
+  const compiler = webpack(inputs);
+
+  if (isHot) {
+    WebpackDevServer.addDevServerEntrypoints(options, devServer);
+    new WebpackDevServer(compiler, devServer).listen(9999, "localhost", () =>
+      console.log(`${HOT_URL}`.green)
+    );
+    setTimeout(() => {
+      openBrowser({ url: HOT_URL });
+    }, 1000);
+    return;
+  }
+
+  const package = {
+    pro: () => compiler.run(options),
+    dev: () => compiler.watch({ aggregateTimeout: 300, poll: 1000 }, options)
+  };
+  package[ctx.env]();
 }

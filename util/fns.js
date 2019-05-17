@@ -41,3 +41,8 @@ exports.toArray = function(source) {
   }
   return [source];
 };
+
+exports.getPageOption = function(config, key) {
+  const option = Object.assign({}, config.pages, config.keys);
+  return option[key] || {};
+};
