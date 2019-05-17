@@ -32,7 +32,7 @@ async function setPackage({ init, cwd }) {
 async function downTemplate(name) {
   const url = "https://www.jsgaotie.com/config/ynw-cli.json";
   const axios = require("axios");
-  await download(`init-${name}`);
+  await download(`init-${name}`, cwd);
   const remote = await axios.get(url);
   return remote.data;
 }
