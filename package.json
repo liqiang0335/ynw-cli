@@ -3,7 +3,7 @@
     "name": "liqiang0335@qq.com"
   },
   "bin": {
-    "yn": "./index.js"
+    "ynw": "./index.js"
   },
   "bugs": {
     "url": "https://github.com/liqiang0335/ynw-cli/issues"
@@ -35,5 +35,5 @@
   "scripts": {
     "beta": "npm publish --tag=beta"
   },
-  "version": "2.0.0-beta"
+  "version": "2.0.1-beta"
 }
