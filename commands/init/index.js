@@ -20,7 +20,9 @@ module.exports = context => {
 
 async function setPackage({ init, cwd }) {
   const PACKAGE = path.join(cwd, "package.json");
-  const { devDependencies } = fs.existsSync(PACKAGE) ? {} : downTemplate(init);
+  const { devDependencies } = fs.existsSync(PACKAGE)
+    ? {}
+    : await downTemplate(init);
   const package = require(PACKAGE);
   package.framework = init;
   Object.assign(package, { devDependencies });
@@ -28,10 +30,9 @@ async function setPackage({ init, cwd }) {
 }
 
 async function downTemplate(name) {
+  const url = "https://www.jsgaotie.com/config/ynw-cli.json";
   const axios = require("axios");
   await download(`init-${name}`);
-  const remote = await axios.get(
-    "https://www.jsgaotie.com/config/ynw-cli.json"
-  );
+  const remote = await axios.get(url);
   return remote.data;
 }
