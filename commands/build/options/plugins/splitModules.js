@@ -1,7 +1,5 @@
-const load = require("../../../../util/load");
-
 module.exports = context => {
-  const { splitModules } = context;
+  const { splitModules, load } = context;
   if (!splitModules) {
     return;
   }

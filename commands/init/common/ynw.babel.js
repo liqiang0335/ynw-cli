@@ -1,12 +1,13 @@
+/**
+ * babel-loader-option
+ */
 const react = {
   presets: [
     [
       "@babel/env",
       {
         modules: false,
-        targets: {
-          browsers: ["ie >= 9"]
-        },
+        targets: {},
         useBuiltIns: "usage",
         corejs: "3"
       }

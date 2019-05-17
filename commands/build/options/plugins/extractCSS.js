@@ -1,23 +1,29 @@
-const load = require("../../../../util/load");
+module.exports = ({ fileName, extractCSS, isHot, isPro, load }) => {
+  const result = [];
 
-module.exports = ({ fileName, extractCSS }) => {
-  if (!extractCSS) {
-    return [];
+  if (!extractCSS || isHot) {
+    return result;
   }
 
-  const OptimizeCssAssetsPlugin = load("optimize-css-assets-webpack-plugin");
-  const cssMin = new OptimizeCssAssetsPlugin({
-    assetNameRegExp: /\.css$/g,
-    cssProcessor: load("cssnano"),
-    cssProcessorOptions: { discardComments: { removeAll: true } },
-    canPrint: true
-  });
+  if (isPro) {
+    const OptimizeCssAssetsPlugin = load("optimize-css-assets-webpack-plugin");
+    result.push(
+      new OptimizeCssAssetsPlugin({
+        assetNameRegExp: /\.css$/g,
+        cssProcessor: load("cssnano"),
+        cssProcessorOptions: { discardComments: { removeAll: true } },
+        canPrint: true
+      })
+    );
+  }
 
   const MiniCssExtractPlugin = load("mini-css-extract-plugin");
-  const cssExtract = new MiniCssExtractPlugin({
-    filename: `${fileName}.bundle.css`,
-    chunkFilename: `${fileName}.[id].css`
-  });
+  result.push(
+    new MiniCssExtractPlugin({
+      filename: `${fileName}.bundle.css`,
+      chunkFilename: `${fileName}.[id].css`
+    })
+  );
 
-  return [cssMin, cssExtract];
+  return result;
 };

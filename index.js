@@ -2,6 +2,10 @@
 
 const path = require("path");
 const fs = require("fs");
+const load = require("./util/load");
+const fns = require("./util/fns");
+const cwd = process.cwd();
+require("./util/aop");
 require("colors");
 
 main();
@@ -10,9 +14,9 @@ function main() {
   const keys = getCommands(fs.readdirSync(folder));
   const key = getKey();
   if (keys.includes(key)) {
-    const { getParams } = require("./util/fns");
-    const argv = getParams(process.argv);
-    require(`./commands/${key}`)(argv);
+    const argv = fns.getParams(process.argv);
+    const params = Object.assign({ cwd, load, fns }, argv);
+    require(`./commands/${key}`)(params);
   }
 }
 

@@ -1,13 +1,25 @@
 // babel-loader Option
-module.exports = ({ ynwLoader, notHot, isPro, target }) => {
+module.exports = ({ ynwLoader, isHot, isPro, target, targets, browsers }) => {
   const { YNW_BABEL_PATH, PACKAGE_JSON } = require("../../../../util/const");
   const { dependencies } = require(PACKAGE_JSON);
-  const babelOptions = require(YNW_BABEL_PATH);
-  let options = dependencies.react ? babelOptions.react : babelOptions.vue;
+  const babelConfig = require(YNW_BABEL_PATH);
+  const options = dependencies.react
+    ? babelConfig.react
+    : dependencies.vue
+    ? babelConfig.vue
+    : {};
+
+  // change @babel/env.targets
+  try {
+    if (options.presets) {
+      options.presets[0][1].targets = targets || { browsers };
+    }
+  } catch (err) {
+    console.log("change @babel/env targets fail".red);
+  }
 
   const use = [];
-
-  if (target === "web" && notHot && ynwLoader !== false) {
+  if (target === "web" && ynwLoader !== false && !isHot) {
     use.push("ynw-loader");
   }
 

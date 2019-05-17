@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-module.exports = ({ isHot, fileName, projectPath }) => {
+module.exports = ({ isHot, fileName, projectPath, port }) => {
   if (!isHot) {
     return;
   }
@@ -15,8 +15,8 @@ module.exports = ({ isHot, fileName, projectPath }) => {
   </head>
   <body>
     <div id="app"></div>
-    <script src="http://127.0.0.1:9999/webpack-dev-server.js"></script>
-    <script src="http://127.0.0.1:9999/dist/${fileName}.bundle.js"></script>
+    <script src="http://127.0.0.1:${port}/webpack-dev-server.js"></script>
+    <script src="http://127.0.0.1:${port}/dist/${fileName}.bundle.js"></script>
   </body>
   </html>`;
 

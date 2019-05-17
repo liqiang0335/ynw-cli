@@ -1,7 +1,5 @@
-const { toArray } = require("../../../../util/fns");
-
 module.exports = ctx => {
-  const { isPro } = ctx;
+  const { isPro, fns } = ctx;
 
   const jsLoader = require("./jsLoader")(ctx);
   const lessLoader = require("./lessLoader")(ctx);
@@ -24,7 +22,7 @@ module.exports = ctx => {
         styleLoader,
         cssLoader,
         "sass-loader",
-        ...toArray(sassResource),
+        ...fns.toArray(sassResource),
         ...postcss
       ]
     },

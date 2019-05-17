@@ -1,3 +1,5 @@
+const { isWin, isMac } = require("./const");
+
 /**
  * 获取命令行的参数
  * dep 等价于 dep=true
@@ -45,4 +47,12 @@ exports.toArray = function(source) {
 exports.getPageOption = function(config, key) {
   const option = Object.assign({}, config.pages, config.keys);
   return option[key] || {};
+};
+
+exports.upath = url => {
+  if (isWin) {
+    return url.replace(/\\+/g, "\\\\");
+  } else {
+    return url.replace(/\\+/g, "/");
+  }
 };

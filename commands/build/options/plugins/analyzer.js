@@ -1,9 +1,4 @@
-const load = require("../../../../util/load");
-
-/**
- * 包分析插件
- */
-module.exports = ({ isPro, analyzer }) => {
+module.exports = ({ isPro, analyzer, load }) => {
   if (isPro && analyzer) {
     const { BundleAnalyzerPlugin } = load("webpack-bundle-analyzer");
     return new BundleAnalyzerPlugin({

@@ -1,23 +1,21 @@
-const format = require("date-fns/format");
-
 let counter = 0;
-const log = context => {
-  const { isDev, browsers } = context;
+
+module.exports = ctx => {
+  const { isDev, browsers, targets, buildTime } = ctx;
   const envText = isDev ? "开发环境" : "生产环境";
   const colors = ["green", "blue", "magenta", "cyan"];
   const bg = ["bgGreen", "bgBlue", "bgMagenta", "bgCyan"];
   const index = counter % 4;
-  const time = format(new Date(), "HH:mm:ss");
-  context.buildTime = time;
+
+  const browserValue =
+    (targets &&
+      (targets.browsers || (targets.node && "node:" + targets.node))) ||
+    browsers;
+
   console.log(
     ` ${envText} `[bg[index]],
-    `--- ${time} --- (${browsers})`[colors[index]]
+    `--- ${buildTime} --- (${browserValue})`[colors[index]]
   );
   console.log(`---------------------------------------------`);
   counter++;
-};
-
-module.exports = context => files => {
-  log(context);
-  return files;
 };

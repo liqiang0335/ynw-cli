@@ -11,11 +11,11 @@ module.exports = {
    * 通用的配置项
    */
   common: {
-    browsers: ["ie >= 9"],
-    ynwLoader: true,
-    target: "web",
+    targets: { browsers: ["chrome >=70"] }, //配置@babel/env.targets选项
+    target: "web", //配置webpack.target选项
     externals: {}, //指定不打包的库如:{vue:'Vue','react-dom':'ReactDOM'}
     devServer: {}, //webpack-dev-server 选项
+    port: 9999, //热更新模式服务器的端口
     analyzer: false, //生成打包报告(仅生产环境)
     alias: {}, //自动指定了"@"为项目打包目录的别名
     //在测试环境中自动在PublicPath前添加的前缀
@@ -25,13 +25,14 @@ module.exports = {
     extractCSS: false, //提取CSS到单独文件(仅生产环境)
     splitModules: false, //分离第三方模块到单独文件(仅生产环境)
     cssModules: false, //是否启用CSSModules(仅.scss类型文件)
-    dllPath: "" //指定使用的dll库(manifest的文件夹路径)
+    dllPath: "", //指定使用的dll库(manifest的文件夹路径)
+    themePath: "" //指定antd主题文件路径
   },
   /**
    * keys下面的字段为具体的配置项(会覆盖相应的通用配置项)
    */
-  keys: {
-    // 示例: demo为具体项目文件夹的名称
+  pages: {
+    // 示例: demo为项目文件夹的名称
     demo: {
       extractCSS: true
     }

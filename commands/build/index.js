@@ -2,8 +2,9 @@ const path = require("path");
 const load = require("../../util/load");
 const webpack = load("webpack");
 const cwd = process.cwd();
+const getTimeFromDate = date => date.toTimeString().slice(0, 8);
+
 const {
-  HOT_URL,
   YNW_CONFIG_PATH,
   PRODUCTION,
   DEVELOPMENT
@@ -40,7 +41,9 @@ function parseInput(argv) {
   const fileName = path.basename(options.entry);
   const absolutePath = path.join(cwd, options.entry);
   const projectPath = path.dirname(absolutePath);
-  const distPath = options.dist || path.join(projectPath + "/dist/");
+  const distPath =
+    (options.dist && path.join(cwd, options.dist)) ||
+    path.join(projectPath + "/dist/");
 
   return Object.assign({}, options, {
     isHot,
@@ -88,8 +91,13 @@ function before(ctx, options) {
   require("./before/log")(ctx, options);
 }
 
-function after(result) {
-  console.log("> after".red);
+function after(ctx) {
+  return function() {
+    const buildTime = getTimeFromDate(new Date());
+    const context = { buildTime, ...ctx };
+    require("./after/append")(context);
+    require("./after/print")(context);
+  };
 }
 
 const exec = after => (err, stats) => {
@@ -100,9 +108,13 @@ const exec = after => (err, stats) => {
   }
   const info = stats.toJson("minimal");
   const hasError = stats.hasErrors();
-  if (hasError) console.error(info.errors);
-  if (stats.hasWarnings()) console.warn(info.warnings);
-  const result = stats.toString({
+  if (hasError) {
+    console.error(info.errors);
+  }
+  if (stats.hasWarnings()) {
+    console.warn(info.warnings);
+  }
+  const buildInfo = stats.toString({
     chunks: false,
     colors: true,
     assets: false,
@@ -111,28 +123,31 @@ const exec = after => (err, stats) => {
     children: false,
     maxModules: 1
   });
-  console.log(result);
+  console.log(buildInfo);
   if (!hasError) {
-    after(result);
+    after(buildInfo);
   }
 };
 
 function run(ctx, options) {
+  const { port } = ctx;
+  const { devServer } = options;
   const compiler = webpack(options);
 
   const package = {
     dev: () =>
-      compiler.watch({ aggregateTimeout: 300, poll: 1000 }, exec(after)),
+      compiler.watch({ aggregateTimeout: 300, poll: 1000 }, exec(after(ctx))),
     pro: () => compiler.run(exec(after)),
     hot: () => {
       const WebpackDevServer = load("webpack-dev-server");
-      const { devServer } = options;
+      const url = `http://127.0.0.1:${port}/dev.html`;
+
       WebpackDevServer.addDevServerEntrypoints(options, devServer);
-      new WebpackDevServer(compiler, devServer).listen(9999, "localhost", () =>
-        console.log(`${HOT_URL}`.green)
+      new WebpackDevServer(compiler, devServer).listen(port, "localhost", () =>
+        console.log(`${url}`.green)
       );
       setTimeout(() => {
-        openBrowser({ url: HOT_URL });
+        openBrowser({ url });
       }, 1000);
     }
   };
