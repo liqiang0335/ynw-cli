@@ -6,11 +6,11 @@ const colors = require("colors");
 const cwd = process.cwd();
 
 module.exports = context => {
-  const { dll, fns } = context;
+  const { dll, load } = context;
   if (!dll) return;
 
-  const UglifyJSPlugin = fns.load("uglifyjs-webpack-plugin");
-  const webpack = fns.load("webpack");
+  const UglifyJSPlugin = load("uglifyjs-webpack-plugin");
+  const webpack = load("webpack");
   const config = require(path.join(cwd, "ynw.config.js"));
   const dist = config.dll.dist;
   const modules = config.dll.modules;

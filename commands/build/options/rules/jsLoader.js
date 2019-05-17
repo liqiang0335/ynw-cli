@@ -1,13 +1,19 @@
 // babel-loader Option
-module.exports = ({ ynwLoader, isHot, isPro, target, targets, browsers }) => {
+module.exports = ({
+  ynwLoader,
+  isHot,
+  isPro,
+  target,
+  targets,
+  browsers,
+  framework
+}) => {
   const { YNW_BABEL_PATH, PACKAGE_JSON } = require("../../../../util/const");
-  const { framework } = require(PACKAGE_JSON);
+  const package = require(PACKAGE_JSON);
   const babelConfig = require(YNW_BABEL_PATH);
-  const options = framework.react
-    ? babelConfig.react
-    : framework.vue
-    ? babelConfig.vue
-    : {};
+
+  const key = framework || package.framework;
+  const options = babelConfig[key];
 
   // change @babel/env.targets
   try {

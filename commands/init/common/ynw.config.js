@@ -11,7 +11,8 @@ module.exports = {
    * 通用的配置项
    */
   common: {
-    targets: { browsers: ["chrome >=70"] }, //配置@babel/env.targets选项
+    framework: "", //react/vue 默认从package.json中读取
+    targets: { browsers: ["ie >= 11"] }, //配置@babel/env.targets选项
     target: "web", //配置webpack.target选项
     externals: {}, //指定不打包的库如:{vue:'Vue','react-dom':'ReactDOM'}
     devServer: {}, //webpack-dev-server 选项

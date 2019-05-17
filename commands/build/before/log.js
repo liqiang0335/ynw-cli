@@ -22,7 +22,7 @@ function log(options) {
     console.log("> babel".green, babelOption);
     console.log("> targets".green, babelOption[0][1].targets);
   } catch (err) {
-    console.log("> babel".green, "get Info fail".red);
+    console.log("> babel".green, "get fail".red);
   }
 
   console.log("-----------------------------------------------".yellow);

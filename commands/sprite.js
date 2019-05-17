@@ -1,16 +1,10 @@
 const path = require("path");
-let gulp, spritesmith;
 
 module.exports = context => {
-  const { fns } = context;
-  fns.load("colors");
-  gulp = fns.load("gulp");
-  spritesmith = fns.load("gulp.spritesmith");
-  main();
-};
+  const { load, cwd } = context;
+  const gulp = load("gulp");
+  const spritesmith = load("gulp.spritesmith");
 
-function main() {
-  const cwd = process.cwd();
   const config = require(path.join(cwd, "./ynw.config.js"));
   let gulpConfig = config.gulp;
   if (!gulpConfig) {
@@ -43,4 +37,4 @@ function main() {
      width: ${w};height: ${h};}
   `;
   }
-}
+};

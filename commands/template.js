@@ -11,7 +11,6 @@ const question = [
 module.exports = async context => {
   const { template, cwd } = context;
   const inquirer = require("inquirer");
-  require("colors");
 
   inquirer.prompt(question).then(answers => {
     const { to } = answers;
