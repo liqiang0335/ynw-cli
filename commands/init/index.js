@@ -1,43 +1,38 @@
 const path = require("path");
-const load = require("../build/middleware/load");
+const fs = require("fs");
+const download = require("../../util/download");
 
-const write = async (
-  { fns, cwd, sourceFolderName },
-  { filePath, fileName }
-) => {
-  const target = path.join(cwd, fileName);
-  if (sourceFolderName == "common" && (await fns.exists(target))) {
-    return;
-  }
-  const content = await fns.readFile(filePath, "utf-8");
-  await fns.writeFile(target, content, "utf-8");
-};
-
-//批处理写入文件
-const addFiles = async (context, source) => {
-  const { fns } = context;
-  const files = await fns.readdir(source, "utf-8");
+const writeFiles = async source => {
+  const files = fs.readdirSync(source, "utf-8");
   files.forEach(fileName => {
     const filePath = path.join(source, fileName);
-    write(context, { filePath, fileName });
+    //..
   });
 };
 
 module.exports = async context => {
-  const { init, fns, cwd } = context;
-  const axios = require("axios");
-  if (!init) {
-    return;
-  }
-  const common = path.join(__dirname, "./common");
-  await fns.download(`init-${init}`);
-  addFiles({ ...context, sourceFolderName: "common" }, common);
-
-  const REMOTE_PATH = "https://www.jsgaotie.com/config/ynw-cli.json";
-  const remote = await axios.get(REMOTE_PATH);
-  const packagePath = path.join(cwd, "package.json");
-  const package = require(packagePath);
-  package.devDependencies = remote.data.devDependencies;
-  package.scripts.start = "ynw build=app entry=app/index env=hot";
-  fns.writeFile(packagePath, JSON.stringify(package));
+  const COMMON_PATH = path.join(__dirname, "./common");
+  setPackage(context);
+  writeFiles();
 };
+
+async function setPackage({ init, cwd }) {
+  const PACKAGE_PATH = path.join(cwd, "package.json");
+  const { devDependencies } = fs.existsSync(PACKAGE_PATH)
+    ? {}
+    : downTemplate(init);
+
+  const package = require(PACKAGE_PATH);
+  package.framework = init;
+  Object.assign(package.devDependencies, devDependencies);
+  fs.writeFileSync(PACKAGE_PATH, JSON.stringify(package));
+}
+
+async function downTemplate(name) {
+  const axios = require("axios");
+  await download(`init-${name}`);
+  const remote = await axios.get(
+    "https://www.jsgaotie.com/config/ynw-cli.json"
+  );
+  return remote.data;
+}
