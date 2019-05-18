@@ -17,8 +17,9 @@ module.exports = argv => main(argv);
 function main(argv) {
   const optionDecorator = require("./options/optionDecorator");
   const inputs = parseInput(argv);
+  beforeOption(inputs);
   const options = optionDecorator(createWebpackOption(inputs));
-  before(inputs, options);
+  beforeRun(inputs, options);
   run(inputs, options);
 }
 
@@ -57,6 +58,10 @@ function parseInput(argv) {
   });
 }
 
+function beforeOption(inputs) {
+  require("./before/compatibility")(inputs);
+}
+
 function createWebpackOption(inputs) {
   const entry = require("./options/entry")(inputs);
   const alias = require("./options/alias")(inputs);
@@ -86,12 +91,12 @@ function createWebpackOption(inputs) {
   };
 }
 
-function before(ctx, options) {
+function beforeRun(ctx, options) {
   require("./before/createDev")(ctx, options);
   require("./before/log")(ctx, options);
 }
 
-function after(ctx) {
+function afterRun(ctx) {
   return function() {
     const buildTime = getTimeFromDate(new Date());
     const context = { buildTime, ...ctx };
@@ -136,8 +141,11 @@ function run(ctx, options) {
 
   const package = {
     dev: () =>
-      compiler.watch({ aggregateTimeout: 300, poll: 1000 }, exec(after(ctx))),
-    pro: () => compiler.run(exec(after)),
+      compiler.watch(
+        { aggregateTimeout: 300, poll: 1000 },
+        exec(afterRun(ctx))
+      ),
+    pro: () => compiler.run(exec(afterRun)),
     hot: () => {
       const WebpackDevServer = load("webpack-dev-server");
       const url = `http://127.0.0.1:${port}/dev.html`;
