@@ -27,7 +27,8 @@ module.exports = {
     splitModules: false, //分离第三方模块到单独文件(仅生产环境)
     cssModules: false, //是否启用CSSModules(仅.scss类型文件)
     dllPath: "", //指定使用的dll库(manifest的文件夹路径)
-    themePath: "" //指定antd主题文件路径
+    themePath: "", //指定antd主题文件路径
+    dist: "" //输出目录:默认当前项目下dist文件夹
   },
   /**
    * keys下面的字段为具体的配置项(会覆盖相应的通用配置项)
