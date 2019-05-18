@@ -83,7 +83,7 @@ function createWebpackOption(inputs) {
       chunkFilename,
       publicPath
     },
-    resolve: { alias, extensions: [".js", ".vue", ".jsx"] },
+    resolve: { alias, extensions: [".js", ".vue", ".jsx", ".json"] },
     module: { rules },
     externals,
     plugins,
