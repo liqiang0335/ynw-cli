@@ -1,5 +1,5 @@
 module.exports = options => {
-  if (options.target === "node") {
+  if (options.target !== "web") {
     options.node = { __dirname: false, __filename: false };
   }
 
