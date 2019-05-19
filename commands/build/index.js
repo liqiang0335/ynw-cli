@@ -15,6 +15,8 @@ const openBrowser = require("../../util/openBrowser");
 module.exports = argv => main(argv);
 
 function main(argv) {
+  const package = require("../../package.json");
+  console.log(`> ynw-cli: ${package.version}`.cyan);
   const optionDecorator = require("./options/optionDecorator");
   const inputs = parseInput(argv);
   beforeOption(inputs);

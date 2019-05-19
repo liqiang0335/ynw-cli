@@ -2,6 +2,7 @@ module.exports = function(ctx, options) {
   if (ctx.log) {
     log(options);
   }
+  console.log("> target".green, options.target);
 };
 
 function log(options) {
