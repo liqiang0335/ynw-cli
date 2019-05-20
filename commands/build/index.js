@@ -113,14 +113,7 @@ const exec = after => (err, stats) => {
     if (err.details) console.error(err.details);
     return;
   }
-  const info = stats.toJson("minimal");
   const hasError = stats.hasErrors();
-  if (hasError) {
-    console.error(info.errors);
-  }
-  if (stats.hasWarnings()) {
-    console.warn(info.warnings);
-  }
   const buildInfo = stats.toString({
     chunks: false,
     colors: true,
