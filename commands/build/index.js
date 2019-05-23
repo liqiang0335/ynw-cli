@@ -140,7 +140,7 @@ function run(ctx, options) {
         { aggregateTimeout: 300, poll: 1000 },
         exec(afterRun(ctx))
       ),
-    pro: () => compiler.run(exec(afterRun)),
+    pro: () => compiler.run(exec(afterRun(ctx))),
     hot: () => {
       const WebpackDevServer = load("webpack-dev-server");
       const url = `http://127.0.0.1:${port}/dev.html`;
@@ -150,7 +150,11 @@ function run(ctx, options) {
         console.log(`${url}`.green)
       );
       setTimeout(() => {
-        openBrowser({ url });
+        try {
+          openBrowser({ url });
+        } catch (err) {
+          console.log("Chrome Not Found!");
+        }
       }, 1000);
     }
   };
