@@ -1,6 +1,20 @@
 /**
  * babel-loader-option
  */
+const common = {
+  presets: [
+    [
+      "@babel/env",
+      {
+        modules: false,
+        targets: {},
+        useBuiltIns: "usage",
+        corejs: "3"
+      }
+    ]
+  ]
+};
+
 const react = {
   presets: [
     [
@@ -85,4 +99,4 @@ const vue = {
 
 ////////////////////////////////////////////////////////////
 
-module.exports = { react, vue };
+module.exports = { react, vue, common };

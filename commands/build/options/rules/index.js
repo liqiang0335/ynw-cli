@@ -6,24 +6,22 @@ module.exports = ctx => {
   const cssLoader = require("./cssLoader")(ctx);
   const styleLoader = require("./styleLoader")(ctx);
   const sassResource = require("./sass-resources")(ctx);
-  const postcss = isPro ? ["postcss-loader"] : [];
 
   const result = [
     { test: /\.vue$/, loader: "vue-loader" },
-    { test: /\.css$/, use: [styleLoader, "css-loader", ...postcss] },
+    { test: /\.css$/, use: [styleLoader, "css-loader", "postcss-loader"] },
     {
-      test: /\.less/,
-      use: [styleLoader, "css-loader", lessLoader, ...postcss]
+      test: /\.less$/,
+      use: [styleLoader, "css-loader", "postcss-loader", lessLoader]
     },
     {
       test: /\.scss$/,
-      exclude: /node_modules/,
       use: [
         styleLoader,
         cssLoader,
+        "postcss-loader",
         "sass-loader",
-        ...fns.toArray(sassResource),
-        ...postcss
+        ...fns.toArray(sassResource)
       ]
     },
     {
