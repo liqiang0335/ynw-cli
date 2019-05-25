@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 // babel-loader Option
 module.exports = ({
   ynwLoader,
@@ -6,15 +9,17 @@ module.exports = ({
   target,
   targets,
   browsers,
+  absolutePath,
   framework
 }) => {
-  const { YNW_BABEL_PATH, PACKAGE_JSON } = require("../../../../util/const");
-  const package = require(PACKAGE_JSON);
+  const { YNW_BABEL_PATH } = require("../../../../util/const");
   const babelConfig = require(YNW_BABEL_PATH);
+  const key = framework || getFramework(absolutePath);
+  if (target == "web") {
+    console.log(`> babel option: ${key}`.green);
+  }
 
-  const key = framework || package.framework;
   const options = babelConfig[key];
-
   // change @babel/env.targets
   try {
     if (options.presets) {
@@ -40,3 +45,14 @@ module.exports = ({
 
   return use;
 };
+
+function getFramework(absolutePath) {
+  const content = fs.readFileSync(absolutePath, "utf-8");
+  if (/import\s+[Vv]vue/.test(content)) {
+    return "vue";
+  }
+  if (/import\s+React/.test(content)) {
+    return "react";
+  }
+  return "common";
+}

@@ -16,12 +16,14 @@ module.exports = argv => main(argv);
 
 function main(argv) {
   const package = require("../../package.json");
-  console.log(`> ynw-cli: ${package.version}`.cyan);
   const optionDecorator = require("./options/optionDecorator");
+
+  console.log(`> ynw-cli: ${package.version}`.cyan);
+
   const inputs = parseInput(argv);
   beforeOption(inputs);
   const options = optionDecorator(createWebpackOption(inputs));
-  beforeRun(inputs, options);
+  beforeCompiler(inputs, options);
   run(inputs, options);
 }
 
@@ -93,12 +95,12 @@ function createWebpackOption(inputs) {
   };
 }
 
-function beforeRun(ctx, options) {
+function beforeCompiler(ctx, options) {
   require("./before/createDev")(ctx, options);
   require("./before/log")(ctx, options);
 }
 
-function afterRun(ctx) {
+function afterCompiler(ctx) {
   return function() {
     const buildTime = getTimeFromDate(new Date());
     const context = { buildTime, ...ctx };
@@ -138,9 +140,9 @@ function run(ctx, options) {
     dev: () =>
       compiler.watch(
         { aggregateTimeout: 300, poll: 1000 },
-        exec(afterRun(ctx))
+        exec(afterCompiler(ctx))
       ),
-    pro: () => compiler.run(exec(afterRun(ctx))),
+    pro: () => compiler.run(exec(afterCompiler(ctx))),
     hot: () => {
       const WebpackDevServer = load("webpack-dev-server");
       const url = `http://127.0.0.1:${port}/dev.html`;
