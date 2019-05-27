@@ -1,8 +1,11 @@
+const path = require("path");
+
 module.exports = ctx => {
   const {
     publicPath,
     envPublicPath,
     distPath,
+    cwd,
     dpath,
     epath,
     isDev,
@@ -11,19 +14,29 @@ module.exports = ctx => {
     envPrefix
   } = ctx;
 
+  const distRelative =
+    "/" + path.relative(cwd, distPath).replace(/\\+/g, "/") + "/";
+
   if (isHot) {
     return "/dist/";
   }
 
   if (dpath) {
-    return distPath;
+    return distRelative;
   }
 
   if (epath || isDev) {
-    return envPrefix + (envPublicPath || publicPath || distPath || "./dist/");
+    return changeSep(
+      (envPrefix || "") + (envPublicPath || publicPath || distRelative)
+    );
   }
 
   if (isPro) {
-    return publicPath || distPath;
+    return publicPath || distRelative;
   }
 };
+
+function changeSep(str) {
+  console.log("--changeSep-");
+  return str.replace(/\/+/g, "/").replace(/\\+/g, "\\");
+}

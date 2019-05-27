@@ -10,7 +10,7 @@ module.exports = ({ projectPath, themePath }) => {
   const lessOptions = modifyVars ? { modifyVars } : null;
 
   if (lessOptions) {
-    console.log("use antd theme".green);
+    console.log("> use antd theme".green);
   }
 
   return {
