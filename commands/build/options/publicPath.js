@@ -37,6 +37,5 @@ module.exports = ctx => {
 };
 
 function changeSep(str) {
-  console.log("--changeSep-");
   return str.replace(/\/+/g, "/").replace(/\\+/g, "\\");
 }
