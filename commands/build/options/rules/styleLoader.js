@@ -1,4 +1,8 @@
-module.exports = ({ extractCSS, load }) => {
+module.exports = ({ extractCSS, isHot, load }) => {
+  const style = "vue-style-loader";
+  if (isHot) {
+    return style;
+  }
   const MiniCssExtractPlugin = load("mini-css-extract-plugin");
-  return extractCSS ? MiniCssExtractPlugin.loader : "vue-style-loader";
+  return extractCSS ? MiniCssExtractPlugin.loader : style;
 };
