@@ -9,6 +9,7 @@ const isMac = platform == "darwin";
 exports.HOST = "http://www.jsgaotie.com";
 exports.BABEL_CONFIG_PATH = getPath("babel.config.js");
 exports.YNW_BABEL_PATH = getPath("ynw.babel.js");
+exports.BABELRC = getPath(".babelrc");
 exports.YNW_CONFIG_PATH = getPath("ynw.config.js");
 exports.PACKAGE_JSON = getPath("package.json");
 exports.PRODUCTION = "production";
