@@ -51,10 +51,10 @@ function getFramework(absolutePath) {
   console.log("> detect framework from entry");
   const file = absolutePath + ".js";
   const content = fs.readFileSync(file, "utf-8");
-  if (/import\s+[Vv]ue\s+from/.test(content)) {
+  if (/import\s+[Vv]ue/.test(content)) {
     return "vue";
   }
-  if (/import\s+React\s+from/.test(content)) {
+  if (/import\s+React/.test(content)) {
     return "react";
   }
   return "common";
