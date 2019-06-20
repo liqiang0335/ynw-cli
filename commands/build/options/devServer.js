@@ -6,7 +6,7 @@ module.exports = ({ isHot, projectPath, devServer }) => {
           inline: true,
           contentBase: projectPath,
           publicPath: "/dist/",
-          open: true
+          open: false
         },
         devServer
       )

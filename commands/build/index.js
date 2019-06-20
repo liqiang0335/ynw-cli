@@ -2,6 +2,7 @@ const path = require("path");
 const load = require("../../util/load");
 const webpack = load("webpack");
 const cwd = process.cwd();
+const axios = require("axios");
 const getTimeFromDate = date => date.toTimeString().slice(0, 8);
 
 const {
@@ -14,20 +15,20 @@ const openBrowser = require("../../util/openBrowser");
 
 module.exports = argv => main(argv);
 
-function main(argv) {
+async function main(argv) {
   const package = require("../../package.json");
   const optionDecorator = require("./options/optionDecorator");
 
   console.log(`> ynw-cli: ${package.version}`.cyan);
 
-  const inputs = parseInput(argv);
+  const inputs = await parseInput(argv);
   beforeOption(inputs);
   const options = optionDecorator(createWebpackOption(inputs));
   beforeCompiler(inputs, options);
   run(inputs, options);
 }
 
-function parseInput(argv) {
+async function parseInput(argv) {
   const { build, env } = argv;
   const defaultOption = {
     target: "web",
@@ -49,6 +50,10 @@ function parseInput(argv) {
   const distPath =
     (options.dist && path.join(cwd, options.dist)) ||
     path.join(projectPath + "/dist/");
+
+  if (isHot) {
+    options.port = await getValidPort(options.port);
+  }
 
   return Object.assign({}, options, {
     isHot,
@@ -161,4 +166,18 @@ function run(ctx, options) {
     }
   };
   package[ctx.env]();
+}
+
+async function getValidPort(port = 9999) {
+  const min = port - 20;
+  for (let i = port; i >= min; i--) {
+    let url = `http://localhost:${i}`;
+    const result = await axios
+      .get(url)
+      .then(() => false)
+      .catch(() => true);
+    if (result) {
+      return Promise.resolve(i);
+    }
+  }
 }
