@@ -35,5 +35,5 @@
   "scripts": {
     "beta": "npm publish --tag=beta"
   },
-  "version": "2.1.30"
+  "version": "2.1.31"
 }
