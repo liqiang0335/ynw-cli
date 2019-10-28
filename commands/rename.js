@@ -3,7 +3,8 @@ const path = require("path");
 const cwd = process.cwd();
 const arg = process.argv;
 
-function main(prefix) {
+function main() {
+  const prefix = arg[arg.length - 1];
   console.log("prefix", prefix);
   const files = fs.readdirSync(cwd).filter(it => /jpe?g|png/.test(it));
   files.forEach((item, i) => {
@@ -15,4 +16,6 @@ function main(prefix) {
   });
 }
 
-main(arg[arg.length - 1]);
+module.exports = ctx => {
+  main(ctx);
+};
