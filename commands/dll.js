@@ -1,5 +1,5 @@
 /**
- * 打包库
+ * dllplugin
  */
 const path = require("path");
 const colors = require("colors");
@@ -69,7 +69,7 @@ module.exports = context => {
 /////////////////////////////////////////////////////////////
 
 /**
- * Webpack 打包回调
+ * Webpack package
  * @param {Function} callback
  */
 const exec = callback => (err, stats) => {
