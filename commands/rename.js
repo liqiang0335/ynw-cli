@@ -5,7 +5,7 @@ const arg = process.argv;
 
 function main() {
   const prefix = arg[arg.length - 1];
-  const files = fs.readdirSync(cwd).filter(it => /(jpe?g|png|gif)$/.test(it));
+  const files = fs.readdirSync(cwd).filter(it => /(jpe?g|png|gif)$/i.test(it));
   files.forEach((item, i) => {
     const oldName = path.join(cwd, item);
     const ext = path.extname(oldName);
