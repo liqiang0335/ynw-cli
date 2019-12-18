@@ -1,8 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
-module.exports = ({ isHot, fileName, projectPath, port }) => {
-  if (!isHot) {
+module.exports = ({ isHot, fileName, projectPath, port, reuseDev }) => {
+  if (!isHot || reuseDev) {
     return;
   }
   const html = `<!DOCTYPE html>
