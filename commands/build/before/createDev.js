@@ -2,9 +2,12 @@ const fs = require("fs");
 const path = require("path");
 
 module.exports = ({ isHot, fileName, projectPath, port, createDev }) => {
-  if (!isHot || !createDev) {
+  const target = path.join(projectPath, "dev.html");
+  if (!isHot) return;
+  if (!createDev && fs.existsSync(target)) {
     return;
   }
+
   const html = `<!DOCTYPE html>
   <html lang="en">
   <head>
@@ -20,6 +23,5 @@ module.exports = ({ isHot, fileName, projectPath, port, createDev }) => {
   </body>
   </html>`;
 
-  const target = path.join(projectPath, "dev.html");
   fs.writeFileSync(target, html);
 };
