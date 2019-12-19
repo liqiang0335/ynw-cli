@@ -4,7 +4,7 @@ const path = require("path");
 module.exports = ({ isHot, fileName, projectPath, port, createDev }) => {
   const target = path.join(projectPath, "dev.html");
   if (!isHot) return;
-  if (!createDev && fs.existsSync(target)) {
+  if (createDev === false && fs.existsSync(target)) {
     return;
   }
 
