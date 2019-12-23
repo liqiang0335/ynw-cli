@@ -1,14 +1,18 @@
 const fs = require("fs");
 const path = require("path");
 
-module.exports = ({ projectPath, themePath }) => {
-  const localPath = path.join(projectPath, "/style/theme.json");
-  const local = fs.existsSync(localPath) && require(localPath);
-  const common = fs.existsSync(themePath) && require(themePath);
+module.exports = ({ projectPath, themePath, cwd }) => {
+  let option = {};
+  const localConfig = path.join(projectPath, "/style/theme.json");
+  const commonConfig = path.join(process.cwd(), themePath);
 
-  let modifyVars = local || common;
-  const lessOptions = modifyVars ? { modifyVars } : null;
-
+  if (fs.existsSync(commonConfig)) {
+    Object.assign(option, require(commonConfig));
+  }
+  if (fs.existsSync(localConfig)) {
+    Object.assign(option, require(localConfig));
+  }
+  const lessOptions = { modifyVars: option };
   return {
     loader: "less-loader",
     options: {
