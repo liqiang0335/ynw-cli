@@ -6,10 +6,10 @@ module.exports = ({ projectPath, themePath, cwd }) => {
   const localConfig = path.join(projectPath, "/style/theme.json");
   const commonConfig = path.join(process.cwd(), themePath);
 
-  if (fs.existsSync(commonConfig)) {
+  if (themePath && fs.existsSync(commonConfig)) {
     Object.assign(option, require(commonConfig));
   }
-  if (fs.existsSync(localConfig)) {
+  if (localConfig && fs.existsSync(localConfig)) {
     Object.assign(option, require(localConfig));
   }
   const lessOptions = { modifyVars: option };
