@@ -40,9 +40,9 @@ module.exports = ({
     options
   });
 
-  if (isPro) {
-    use.push("uglify-template-string-loader");
-  }
+  // if (isPro) {
+  //   use.push("uglify-template-string-loader");
+  // }
 
   return use;
 };
