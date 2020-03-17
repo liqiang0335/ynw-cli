@@ -2,7 +2,16 @@ const fs = require("fs");
 const path = require("path");
 
 module.exports = context => {
-  const { distPath, isPro, isHot, fileName, buildTime, env, target } = context;
+  const {
+    distPath,
+    isPro,
+    isHot,
+    fileName,
+    buildTime,
+    env,
+    target,
+    ynwLoader
+  } = context;
 
   if (isHot || target !== "web") {
     return;
@@ -14,8 +23,10 @@ module.exports = context => {
   const content = fs.readFileSync(file, "utf-8");
 
   const extra = [];
-  extra.push(`window.WEBPACK_BUILD_TIME = "${displayTime}";`);
-  extra.push(`window.WEBPACK_ENV = "${env}";`);
+  if (ynwLoader !== false) {
+    extra.push(`window.WEBPACK_BUILD_TIME = "${displayTime}";`);
+    extra.push(`window.WEBPACK_ENV = "${env}";`);
+  }
 
   fs.writeFileSync(file, content + extra.join(""));
 };
