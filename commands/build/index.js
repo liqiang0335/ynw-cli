@@ -144,7 +144,7 @@ function run(ctx, options) {
   const package = {
     dev: () =>
       compiler.watch(
-        { aggregateTimeout: 300, poll: 1000 },
+        { aggregateTimeout: 300, poll: 1000, ignored: /node_modules/ },
         exec(afterCompiler(ctx))
       ),
     pro: () => compiler.run(exec(afterCompiler(ctx))),
