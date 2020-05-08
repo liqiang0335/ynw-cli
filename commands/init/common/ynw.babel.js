@@ -9,10 +9,10 @@ const common = {
         modules: false,
         targets: {},
         useBuiltIns: "usage",
-        corejs: "3"
-      }
-    ]
-  ]
+        corejs: "3",
+      },
+    ],
+  ],
 };
 
 const react = {
@@ -23,10 +23,10 @@ const react = {
         modules: false,
         targets: {},
         useBuiltIns: "usage",
-        corejs: "3"
-      }
+        corejs: "3",
+      },
     ],
-    "@babel/react"
+    "@babel/react",
   ],
   plugins: [
     "webpack-async-module-name",
@@ -39,24 +39,24 @@ const react = {
     [
       "@babel/plugin-proposal-decorators",
       {
-        legacy: true
-      }
+        legacy: true,
+      },
     ],
     [
       "@babel/plugin-proposal-class-properties",
       {
-        loose: true
-      }
+        loose: true,
+      },
     ],
     [
       "import",
       {
         libraryName: "antd",
         libraryDirectory: "es",
-        style: true
-      }
-    ]
-  ]
+        style: true,
+      },
+    ],
+  ],
 };
 
 ////////////////////////////////////////////////////////////
@@ -68,33 +68,37 @@ const vue = {
       {
         modules: false,
         targets: {
-          browsers: ["ie >= 9"]
+          browsers: ["ie >= 9"],
         },
         useBuiltIns: "usage",
-        corejs: "3"
-      }
-    ]
+        corejs: "3",
+      },
+    ],
   ],
   plugins: [
     "ynw",
     "webpack-async-module-name",
     "@babel/plugin-transform-runtime",
+    "@babel/plugin-transform-dotall-regex",
+    "@babel/plugin-proposal-optional-chaining",
+    "@babel/plugin-proposal-async-generator-functions",
+    "@babel/plugin-proposal-nullish-coalescing-operator",
     [
       "component",
       {
         libraryName: "element-ui",
-        styleLibraryName: "theme-chalk"
-      }
+        styleLibraryName: "theme-chalk",
+      },
     ],
     [
       "import",
       {
         libraryName: "vant",
         libraryDirectory: "es",
-        style: true
-      }
-    ]
-  ]
+        style: true,
+      },
+    ],
+  ],
 };
 
 ////////////////////////////////////////////////////////////
