@@ -1,4 +1,4 @@
-const before = require("./ynw-mock");
+const { before } = require("./ynw-mock");
 /**
  * - 路径均为相对根目录
  * - style/var.scss = scss 全局变量 (无需引入)
