@@ -7,7 +7,11 @@
     "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
-      "ClientApp/*": ["./ClientApp/*"]
+      "@store/*": ["./main/store/*"],
+      "@comps/*": ["./main/component/*"],
+      "@script/*": ["./main/script/*"],
+      "@const/*": ["./main/constant/*"],
+      "@hook/*": ["./main/hook/*"]
     }
   },
   "exclude": ["dist", "node_modules"]
