@@ -1,4 +1,4 @@
-module.exports = ({ isHot, absolutePath, fileName, port }) => {
+module.exports = ({ isHot, absolutePath, fileName,  port }) => {
   if (isHot) {
     return {
       [fileName]: [

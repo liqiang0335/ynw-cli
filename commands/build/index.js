@@ -3,17 +3,17 @@ const load = require("../../util/load");
 const webpack = load("webpack");
 const cwd = process.cwd();
 const axios = require("axios");
-const getTimeFromDate = date => date.toTimeString().slice(0, 8);
+const getTimeFromDate = (date) => date.toTimeString().slice(0, 8);
 
 const {
   YNW_CONFIG_PATH,
   PRODUCTION,
-  DEVELOPMENT
+  DEVELOPMENT,
 } = require("../../util/const");
 const { getPageOption } = require("../../util/fns");
 const openBrowser = require("../../util/openBrowser");
 
-module.exports = argv => main(argv);
+module.exports = (argv) => main(argv);
 
 async function main(argv) {
   const package = require("../../package.json");
@@ -33,7 +33,8 @@ async function parseInput(argv) {
   const defaultOption = {
     target: "web",
     env: "dev",
-    port: 9999
+    port: 9999,
+    host:"127.0.0.1"
   };
   const config = require(YNW_CONFIG_PATH);
   const pageOption = getPageOption(config, build);
@@ -63,7 +64,7 @@ async function parseInput(argv) {
     fileName,
     absolutePath,
     projectPath,
-    distPath
+    distPath,
   });
 }
 
@@ -90,13 +91,13 @@ function createWebpackOption(inputs) {
       filename: inputs.hash ? "[name].bundle.[hash:5].js" : "[name].bundle.js",
       path: inputs.distPath,
       chunkFilename,
-      publicPath
+      publicPath,
     },
     resolve: { alias, extensions: [".js", ".vue", ".jsx", ".json"] },
     module: { rules },
     externals,
     plugins,
-    devServer
+    devServer,
   };
 }
 
@@ -114,7 +115,7 @@ function afterCompiler(ctx) {
   };
 }
 
-const exec = after => (err, stats) => {
+const exec = (after) => (err, stats) => {
   if (err) {
     console.error(err.stack || err);
     if (err.details) console.error(err.details);
@@ -128,7 +129,7 @@ const exec = after => (err, stats) => {
     chunkModules: false,
     chunks: false,
     children: false,
-    maxModules: 1
+    maxModules: 1,
   });
   console.log(buildInfo);
   if (!hasError) {
@@ -137,7 +138,7 @@ const exec = after => (err, stats) => {
 };
 
 function run(ctx, options) {
-  const { port } = ctx;
+  const { port, host } = ctx;
   const { devServer } = options;
   const compiler = webpack(options);
 
@@ -150,11 +151,13 @@ function run(ctx, options) {
     pro: () => compiler.run(exec(afterCompiler(ctx))),
     hot: () => {
       const WebpackDevServer = load("webpack-dev-server");
-      const url = `http://127.0.0.1:${port}/dev.html`;
+      const url = `http://${host}:${port}/dev.html`;
 
       WebpackDevServer.addDevServerEntrypoints(options, devServer);
-      new WebpackDevServer(compiler, devServer).listen(port, "localhost", () =>
-        console.log(`${url}`.green)
+      new WebpackDevServer(compiler, devServer).listen(
+        port,
+        host,
+        () => console.log(`${url}`.green)
       );
       setTimeout(() => {
         try {
@@ -163,7 +166,7 @@ function run(ctx, options) {
           console.log("Chrome Not Found!");
         }
       }, 1000);
-    }
+    },
   };
   package[ctx.env]();
 }
