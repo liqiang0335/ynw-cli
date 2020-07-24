@@ -1,4 +1,4 @@
-module.exports = ({ isHot, projectPath,host, port, devServer }) => {
+module.exports = ({ isHot, projectPath, host, port, devServer }) => {
   return isHot
     ? Object.assign(
         {
@@ -9,7 +9,7 @@ module.exports = ({ isHot, projectPath,host, port, devServer }) => {
           open: false,
           disableHostCheck: true,
           host,
-          port
+          port,
         },
         devServer
       )

@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-module.exports = ({ isHot, fileName, projectPath, port,host, createDev }) => {
+module.exports = ({ isHot, fileName, projectPath, port, host, createDev }) => {
   const target = path.join(projectPath, "dev.html");
   if (!isHot) return;
   if (createDev === false && fs.existsSync(target)) {
@@ -18,11 +18,9 @@ module.exports = ({ isHot, fileName, projectPath, port,host, createDev }) => {
   </head>
   <body>
     <div id="app"></div>
-    <script src="http://${host}:${port}/dist/${fileName}.bundle.js"></script>
+    <script src="/dist/${fileName}.bundle.js"></script>
     </body>
     </html>`;
-    
-    fs.writeFileSync(target, html);
-  };
-  
-  // <script src="http://${host}:${port}/webpack-dev-server.js"></script>
+
+  fs.writeFileSync(target, html);
+};

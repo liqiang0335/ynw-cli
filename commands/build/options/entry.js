@@ -1,14 +1,14 @@
-module.exports = ({ isHot, absolutePath, fileName,  port }) => {
+module.exports = ({ isHot, absolutePath, fileName, port }) => {
   if (isHot) {
     return {
       [fileName]: [
         `webpack-dev-server/client?http://127.0.0.1:${port}/`,
         "webpack/hot/dev-server",
-        absolutePath
-      ]
+        absolutePath,
+      ],
     };
   }
   return {
-    [fileName]: absolutePath
+    [fileName]: absolutePath,
   };
 };

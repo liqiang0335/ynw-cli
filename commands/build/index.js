@@ -3,7 +3,7 @@ const load = require("../../util/load");
 const webpack = load("webpack");
 const cwd = process.cwd();
 const axios = require("axios");
-const getTimeFromDate = (date) => date.toTimeString().slice(0, 8);
+const getTimeFromDate = date => date.toTimeString().slice(0, 8);
 
 const {
   YNW_CONFIG_PATH,
@@ -13,7 +13,7 @@ const {
 const { getPageOption } = require("../../util/fns");
 const openBrowser = require("../../util/openBrowser");
 
-module.exports = (argv) => main(argv);
+module.exports = argv => main(argv);
 
 async function main(argv) {
   const package = require("../../package.json");
@@ -34,7 +34,7 @@ async function parseInput(argv) {
     target: "web",
     env: "dev",
     port: 9999,
-    host:"127.0.0.1"
+    host: "127.0.0.1",
   };
   const config = require(YNW_CONFIG_PATH);
   const pageOption = getPageOption(config, build);
@@ -107,7 +107,7 @@ function beforeCompiler(ctx, options) {
 }
 
 function afterCompiler(ctx) {
-  return function() {
+  return function () {
     const buildTime = getTimeFromDate(new Date());
     const context = { buildTime, ...ctx };
     require("./after/append")(context);
@@ -115,7 +115,7 @@ function afterCompiler(ctx) {
   };
 }
 
-const exec = (after) => (err, stats) => {
+const exec = after => (err, stats) => {
   if (err) {
     console.error(err.stack || err);
     if (err.details) console.error(err.details);
@@ -151,13 +151,11 @@ function run(ctx, options) {
     pro: () => compiler.run(exec(afterCompiler(ctx))),
     hot: () => {
       const WebpackDevServer = load("webpack-dev-server");
-      const url = `http://${host}:${port}/dev.html`;
+      const url = `http://127.0.0.1:${port}/dev.html`;
 
       WebpackDevServer.addDevServerEntrypoints(options, devServer);
-      new WebpackDevServer(compiler, devServer).listen(
-        port,
-        host,
-        () => console.log(`${url}`.green)
+      new WebpackDevServer(compiler, devServer).listen(port, host, () =>
+        console.log(`${url}`.green)
       );
       setTimeout(() => {
         try {
