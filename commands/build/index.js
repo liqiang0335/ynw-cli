@@ -81,14 +81,22 @@ function createWebpackOption(inputs) {
   const devServer = require("./options/devServer")(inputs);
   const publicPath = require("./options/publicPath")(inputs);
 
-  const chunkFilename = `${inputs.fileName}.chunk.[name].js`;
+  const chunkFilename =
+    inputs.hash && inputs.isPro && inputs.chunkHash !== false
+      ? `${inputs.fileName}.chunk.[hash:5].[name].js`
+      : `${inputs.fileName}.chunk.[name].js`;
+
+  const filename =
+    inputs.hash && inputs.isPro && inputs.bundleHash !== false
+      ? `[name].bundle.[hash:5].js`
+      : `[name].bundle.js`;
 
   return {
     entry,
     target: inputs.target,
     mode: inputs.isPro ? PRODUCTION : DEVELOPMENT,
     output: {
-      filename: inputs.hash ? "[name].bundle.[hash:5].js" : "[name].bundle.js",
+      filename,
       path: inputs.distPath,
       chunkFilename,
       publicPath,
