@@ -1,5 +1,5 @@
 module.exports = ctx => {
-  const { isPro, fns } = ctx;
+  const { isPro, fns, rules = [] } = ctx;
 
   const jsLoader = require("./jsLoader")(ctx);
   const lessLoader = require("./lessLoader")(ctx);
@@ -7,12 +7,12 @@ module.exports = ctx => {
   const styleLoader = require("./styleLoader")(ctx);
   const sassResource = require("./sass-resources")(ctx);
 
-  const result = [
+  return [
     { test: /\.vue$/, loader: "vue-loader" },
     { test: /\.css$/, use: [styleLoader, "css-loader", "postcss-loader"] },
     {
       test: /\.less$/,
-      use: [styleLoader, "css-loader", "postcss-loader", lessLoader]
+      use: [styleLoader, "css-loader", "postcss-loader", lessLoader],
     },
     {
       test: /\.scss$/,
@@ -21,24 +21,23 @@ module.exports = ctx => {
         cssLoader,
         "postcss-loader",
         "sass-loader",
-        ...fns.toArray(sassResource)
-      ]
+        ...fns.toArray(sassResource),
+      ],
     },
     {
       test: /\.jsx?$/,
       use: jsLoader,
-      exclude: /node_modules(?!(\/|\\)_?ynw)/
+      exclude: /node_modules(?!(\/|\\)_?ynw)/,
     },
     {
       test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg)(\?.+)?$/,
       use: [
         {
           loader: "url-loader",
-          options: { limit: 200, name: "assets/[name].[hash:6].[ext]" }
-        }
-      ]
-    }
+          options: { limit: 200, name: "assets/[name].[hash:6].[ext]" },
+        },
+      ],
+    },
+    ...rules,
   ];
-
-  return result;
 };
