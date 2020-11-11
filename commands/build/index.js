@@ -83,7 +83,7 @@ function createWebpackOption(inputs) {
 
   const chunkFilename =
     inputs.hash && inputs.isPro && inputs.chunkHash
-      ? `${inputs.fileName}.chunk.[hash:5].[name].js`
+      ? `${inputs.fileName}.chunk.[chunkhash:5].[name].js`
       : `${inputs.fileName}.chunk.[name].js`;
 
   const filename =
