@@ -3,7 +3,7 @@ const load = require("../../util/load");
 const webpack = load("webpack");
 const cwd = process.cwd();
 const axios = require("axios");
-const getTimeFromDate = date => date.toTimeString().slice(0, 8);
+const getTimeFromDate = (date) => date.toTimeString().slice(0, 8);
 
 const {
   YNW_CONFIG_PATH,
@@ -13,7 +13,7 @@ const {
 const { getPageOption } = require("../../util/fns");
 const openBrowser = require("../../util/openBrowser");
 
-module.exports = argv => main(argv);
+module.exports = (argv) => main(argv);
 
 async function main(argv) {
   const package = require("../../package.json");
@@ -82,12 +82,12 @@ function createWebpackOption(inputs) {
   const publicPath = require("./options/publicPath")(inputs);
 
   const chunkFilename =
-    inputs.hash && inputs.isPro && inputs.chunkHash !== false
+    inputs.hash && inputs.isPro && inputs.chunkHash
       ? `${inputs.fileName}.chunk.[hash:5].[name].js`
       : `${inputs.fileName}.chunk.[name].js`;
 
   const filename =
-    inputs.hash && inputs.isPro && inputs.bundleHash !== false
+    inputs.hash && inputs.isPro && inputs.bundleHash
       ? `[name].bundle.[hash:5].js`
       : `[name].bundle.js`;
 
@@ -123,7 +123,7 @@ function afterCompiler(ctx) {
   };
 }
 
-const exec = after => (err, stats) => {
+const exec = (after) => (err, stats) => {
   if (err) {
     console.error(err.stack || err);
     if (err.details) console.error(err.details);
