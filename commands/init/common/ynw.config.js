@@ -7,9 +7,9 @@ module.exports = {
     devServer: {
       before,
       proxy: {
-        "/my-dev": {
+        "/api": {
           target: "http://www.xxx.com",
-          pathRewrite: { "^/my-dev": "" },
+          pathRewrite: { "^/api": "" },
           changeOrigin: true,
         },
       },
