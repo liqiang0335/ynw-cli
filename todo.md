@@ -1,5 +1,6 @@
 ## TODO
 
+- 支持版本号: `bundle.1.0.1.js`
 - 支持全局 var.scss 导入
 - bundle.js/css 生成独立文件夹
 - HTML 定制
