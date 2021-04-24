@@ -2,7 +2,7 @@ const { before } = require("./ynw-mock");
 module.exports = {
   common: {
     targets: { browsers: ["ie >= 11"] },
-    createDev: true,
+    createDev: false,
     target: "web",
     devServer: {
       before,
@@ -31,9 +31,5 @@ module.exports = {
     dist: "",
     publicPath: "./",
   },
-  pages: {
-    demo: {
-      extractCSS: true,
-    },
-  },
+  pages: {},
 };
