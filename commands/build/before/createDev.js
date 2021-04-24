@@ -18,6 +18,7 @@ module.exports = ({ isHot, fileName, projectPath, port, host, createDev }) => {
   </head>
   <body>
     <div id="app"></div>
+    <script src="http://127.0.0.1:${port}/webpack-dev-server.js"></script>
     <script src="/dist/${fileName}.bundle.js"></script>
     </body>
     </html>`;

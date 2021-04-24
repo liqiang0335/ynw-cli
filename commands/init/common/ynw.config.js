@@ -1,13 +1,13 @@
 const { before } = require("./ynw-mock");
 module.exports = {
   common: {
-    targets: { browsers: ["ie >= 11"] },
+    targets: { browsers: ["chrome >= 60"] },
     createDev: false,
     target: "web",
     devServer: {
       before,
       proxy: {
-        "/mydev": {
+        "/api": {
           target: "http://www.xxx.com",
           pathRewrite: { "^/mydev": "" },
           changeOrigin: true,
