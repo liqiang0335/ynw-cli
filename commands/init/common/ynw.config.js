@@ -7,9 +7,9 @@ module.exports = {
     devServer: {
       before,
       proxy: {
-        "/my-dev": {
+        "/mydev": {
           target: "http://www.xxx.com",
-          pathRewrite: { "^/my-dev": "" },
+          pathRewrite: { "^/mydev": "" },
           changeOrigin: true,
         },
       },
@@ -25,9 +25,9 @@ module.exports = {
       "@hook": "./app/hook",
     },
     envPrefix: "",
-    extractCSS: false,
+    extractCSS: true,
     splitModules: false,
-    cssModules: false,
+    cssModules: true,
     dist: "",
     publicPath: "./",
   },
