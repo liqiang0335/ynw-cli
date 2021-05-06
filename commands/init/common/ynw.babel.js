@@ -36,26 +36,8 @@ const react = {
     "@babel/plugin-proposal-async-generator-functions",
     "@babel/plugin-proposal-nullish-coalescing-operator",
     ["@babel/plugin-proposal-pipeline-operator", { proposal: "minimal" }],
-    [
-      "@babel/plugin-proposal-decorators",
-      {
-        legacy: true,
-      },
-    ],
-    [
-      "@babel/plugin-proposal-class-properties",
-      {
-        loose: true,
-      },
-    ],
-    [
-      "import",
-      {
-        libraryName: "antd",
-        libraryDirectory: "es",
-        style: true,
-      },
-    ],
+    ["@babel/plugin-proposal-decorators", { legacy: true }],
+    ["import", { libraryName: "antd", libraryDirectory: "es", style: true }],
   ],
 };
 
@@ -67,9 +49,7 @@ const vue = {
       "@babel/env",
       {
         modules: false,
-        targets: {
-          browsers: ["ie >= 9"],
-        },
+        targets: { browsers: ["ie >= 9"] },
         useBuiltIns: "usage",
         corejs: "3",
       },
@@ -85,19 +65,9 @@ const vue = {
     "@babel/plugin-proposal-nullish-coalescing-operator",
     [
       "component",
-      {
-        libraryName: "element-ui",
-        styleLibraryName: "theme-chalk",
-      },
+      { libraryName: "element-ui", styleLibraryName: "theme-chalk" },
     ],
-    [
-      "import",
-      {
-        libraryName: "vant",
-        libraryDirectory: "es",
-        style: true,
-      },
-    ],
+    ["import", { libraryName: "vant", libraryDirectory: "es", style: true }],
   ],
 };
 
