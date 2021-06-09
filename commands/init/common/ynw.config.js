@@ -1,15 +1,15 @@
 const { before } = require("./ynw-mock");
 module.exports = {
   common: {
-    targets: { browsers: ["ie >= 11"] },
-    createDev: true,
+    targets: { browsers: ["chrome >= 60"] },
+    createDev: false,
     target: "web",
     devServer: {
       before,
       proxy: {
         "/api": {
           target: "http://www.xxx.com",
-          pathRewrite: { "^/api": "" },
+          pathRewrite: { "^/mydev": "" },
           changeOrigin: true,
         },
       },
@@ -25,15 +25,11 @@ module.exports = {
       "@hook": "./app/hook",
     },
     envPrefix: "",
-    extractCSS: false,
+    extractCSS: true,
     splitModules: false,
-    cssModules: false,
+    cssModules: true,
     dist: "",
     publicPath: "./",
   },
-  pages: {
-    demo: {
-      extractCSS: true,
-    },
-  },
+  pages: {},
 };
