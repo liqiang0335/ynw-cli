@@ -5,7 +5,7 @@ const copy = require("./copy");
 const dllPlugin = require("./dll");
 
 module.exports = ctx => {
-  const { isHot, fns, load, plugins } = ctx;
+  const { isHot, fns, load, plugins = [] } = ctx;
   const toArray = fns.toArray;
   const webpack = load("webpack");
   const VueLoaderPlugin = load("vue-loader/lib/plugin");
