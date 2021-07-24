@@ -2,7 +2,6 @@
  * dllplugin
  */
 const path = require("path");
-const colors = require("colors");
 const cwd = process.cwd();
 
 module.exports = context => {
@@ -39,20 +38,20 @@ module.exports = context => {
       output: {
         path: target,
         filename: `${key}.${env}.dll.js`,
-        library: "[name]"
+        library: "[name]",
       },
       plugins: [
         new webpack.DllPlugin({
           path: target + "/manifest.json",
           name: "[name]",
-          context: cwd
-        })
-      ]
+          context: cwd,
+        }),
+      ],
     };
 
-    const createEnv = function(env) {
+    const createEnv = function (env) {
       return new webpack.DefinePlugin({
-        "process.env.NODE_ENV": JSON.stringify(env)
+        "process.env.NODE_ENV": JSON.stringify(env),
       });
     };
 

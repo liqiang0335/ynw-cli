@@ -3,7 +3,7 @@ const { exec } = require("child_process");
 module.exports = function openBrowser({ url = "", params = "", callback }) {
   const handler = {
     darwin: `open -a "Google Chrome" ${url} ${params}`,
-    win32: `start chrome ${url} ${params}`
+    win32: `start chrome ${url} ${params}`,
   };
 
   const platform = process.platform;
