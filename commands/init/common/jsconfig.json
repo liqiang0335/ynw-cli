@@ -14,5 +14,6 @@
       "@hook/*": ["./app/hook/*"]
     }
   },
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules"],
+  "include": ["ynw"]
 }
