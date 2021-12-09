@@ -3,7 +3,7 @@
     "name": "liqiang0335@qq.com"
   },
   "bin": {
-    "ynw": "./index.js"
+    "ynwdev": "./index.js"
   },
   "bugs": {
     "url": "https://github.com/liqiang0335/ynw-cli/issues"
