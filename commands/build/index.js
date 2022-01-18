@@ -3,17 +3,16 @@ const load = require("../../util/load");
 const webpack = load("webpack");
 const cwd = process.cwd();
 const axios = require("axios");
-const getTimeFromDate = (date) => date.toTimeString().slice(0, 8);
-
+const getTimeFromDate = date => date.toTimeString().slice(0, 8);
 const {
   YNW_CONFIG_PATH,
   PRODUCTION,
   DEVELOPMENT,
 } = require("../../util/const");
 const { getPageOption } = require("../../util/fns");
-const openBrowser = require("../../util/openBrowser");
+const WebpackDevServer = load("webpack-dev-server");
 
-module.exports = (argv) => main(argv);
+module.exports = argv => main(argv);
 
 async function main(argv) {
   const package = require("../../package.json");
@@ -95,6 +94,9 @@ function createWebpackOption(inputs) {
     entry,
     target: inputs.target,
     mode: inputs.isPro ? PRODUCTION : DEVELOPMENT,
+    optimization: {
+      moduleIds: "named",
+    },
     output: {
       filename,
       path: inputs.distPath,
@@ -123,7 +125,7 @@ function afterCompiler(ctx) {
   };
 }
 
-const exec = (after) => (err, stats) => {
+const exec = after => (err, stats) => {
   if (err) {
     console.error(err.stack || err);
     if (err.details) console.error(err.details);
@@ -146,34 +148,31 @@ const exec = (after) => (err, stats) => {
 };
 
 function run(ctx, options) {
-  const { port, host } = ctx;
-  const { devServer } = options;
   const compiler = webpack(options);
 
-  const package = {
-    dev: () =>
-      compiler.watch(
-        { aggregateTimeout: 300, poll: 1000, ignored: /node_modules/ },
-        exec(afterCompiler(ctx))
-      ),
-    pro: () => compiler.run(exec(afterCompiler(ctx))),
-    hot: () => {
-      const WebpackDevServer = load("webpack-dev-server");
-      const url = `http://127.0.0.1:${port}/dev.html`;
+  // 开发模式
+  const dev = () =>
+    compiler.watch(
+      { aggregateTimeout: 300, poll: 1000, ignored: /node_modules/ },
+      exec(afterCompiler(ctx))
+    );
 
-      WebpackDevServer.addDevServerEntrypoints(options, devServer);
-      new WebpackDevServer(compiler, devServer).listen(port, host, () =>
-        console.log(`${url}`.green)
-      );
-      setTimeout(() => {
-        try {
-          openBrowser({ url });
-        } catch (err) {
-          console.log("Chrome Not Found!");
-        }
-      }, 1000);
-    },
+  // 生产模式
+  const pro = () => compiler.run(exec(afterCompiler(ctx)));
+
+  // 热更新模式
+  const hot = () => {
+    console.log(">>> ~ ptions.devServer", options.devServer);
+    const server = new WebpackDevServer(options.devServer, compiler);
+
+    const runServer = async () => {
+      console.log("Starting server...");
+      await server.start();
+    };
+    runServer();
   };
+
+  const package = { dev, pro, hot };
   package[ctx.env]();
 }
 

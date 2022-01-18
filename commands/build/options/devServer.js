@@ -1,17 +1,16 @@
-module.exports = ({ isHot, projectPath, host, port, devServer }) => {
-  return isHot
-    ? Object.assign(
-        {
-          hot: true,
-          inline: true,
-          contentBase: projectPath,
-          publicPath: "/dist/",
-          open: false,
-          disableHostCheck: true,
-          host,
-          port,
-        },
-        devServer
-      )
-    : {};
+module.exports = ({ isHot, projectPath, devServer }) => {
+  if (!isHot) return {};
+  return Object.assign(
+    {
+      static: {
+        directory: projectPath,
+      },
+      historyApiFallback: true,
+      compress: true,
+      allowedHosts: "all",
+      hot: true,
+      open: true,
+    },
+    devServer
+  );
 };
